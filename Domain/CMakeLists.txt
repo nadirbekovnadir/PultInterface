@@ -1,0 +1,2 @@
+add_subdirectory(Entities)
+add_subdirectory(Services)
