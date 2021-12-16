@@ -1,9 +1,5 @@
-set(QML
+#add_qml(
 
-)
+#)
 
-qt_target_qml_sources(${PROJECT_NAME}
-    QML_FILES ${QML}
-    NO_CACHEGEN
-)
-
+#propagate_to_parent()

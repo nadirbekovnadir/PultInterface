@@ -1,11 +1,9 @@
-set(HEADERS
+add_headers(
 
 )
 
-set(SOURCES
+add_sources(
     test.cpp
 )
 
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    ${HEADERS}
-    ${SOURCES})
+propagate_to_parent()

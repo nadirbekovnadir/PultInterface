@@ -1,4 +1,4 @@
-set(QML
+add_qml(
     TopScreen.qml
     CameraModule.qml
     HorizonModule.qml
@@ -8,7 +8,4 @@ set(QML
     TickerModule.qml
 )
 
-qt_target_qml_sources(${PROJECT_NAME}
-    QML_FILES ${QML}
-    NO_CACHEGEN
-)
+propagate_to_parent()
