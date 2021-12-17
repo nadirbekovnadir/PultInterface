@@ -3,6 +3,8 @@ import "MVVM/Views/TopScreen"
 import "MVVM/Views/BtmScreen"
 
 Item {
-    TopScreen{}
+    TopScreen{
+        context: topScreenViewModel
+    }
     BtmScreen{}
 }

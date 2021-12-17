@@ -1,12 +1,23 @@
-import QtQuick 2.0
+import QtQuick 2.3
+import QtMultimedia
 
 Item {
-    Rectangle {
-        id: cameraDummy
-        opacity: 0.5
-        color: "#004359"
-        anchors.fill: parent
+//    Rectangle {
+//        id: cameraDummy
+//        opacity: 0.5
+//        color: "#004359"
+//        anchors.fill: parent
+//    }
 
+    MediaPlayer{
+        id: player
+        source: videoViewModel
+        videoOutput: display
+    }
+
+    VideoOutput {
+        id: display
+        anchors.fill: parent
     }
 }
 
