@@ -2,9 +2,11 @@ import QtQuick 2.0
 import "MVVM/Views/TopScreen"
 import "MVVM/Views/BtmScreen"
 
-Item {
+Item{
     TopScreen{
         context: topScreenViewModel
     }
-    BtmScreen{}
+    BtmScreen{
+        context: botScreenViewModel
+    }
 }

@@ -1,10 +1,12 @@
 #include "MainViewModel.h"
 
+#include <QDebug>
+
 MainViewModel::MainViewModel(
-        TopScreenViewModel *topScreenViewModel,
-        BotScreenViewModel *botScreenViewModel)
-    : _topScreenViewModel(topScreenViewModel),
-      _botScreenViewModel(botScreenViewModel)
+    shared_ptr<TopScreenViewModel> topScreenViewModel,
+    shared_ptr<BotScreenViewModel> botScreenViewModel)
+        : _topScreenViewModel(topScreenViewModel),
+          _botScreenViewModel(botScreenViewModel)
 {
 
 }

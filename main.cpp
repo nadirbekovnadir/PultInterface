@@ -16,14 +16,17 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
+    auto videoViewModel = make_shared<VideoViewModel>();
+    auto topScreenViewModel = make_shared<TopScreenViewModel>(videoViewModel);
+    auto botScreenViewModel = make_shared<BotScreenViewModel>();
+
     MainViewModel *mainViewModel = new MainViewModel(
-        new TopScreenViewModel(),
-        new BotScreenViewModel()
+        topScreenViewModel,
+        botScreenViewModel
     );
 
     auto context = engine.rootContext();
     context->setContextObject(mainViewModel);
-    //context->setContextProperty("model", mainViewModel);
 
     engine.addImportPath("qrc:/qmldir");
 

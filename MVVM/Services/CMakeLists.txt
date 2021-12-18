@@ -1,9 +1,9 @@
 add_headers(
-
+    CameraHandler.h
 )
 
 add_sources(
-    test.cpp
+    CameraHandler.cpp
 )
 
 propagate_to_parent()

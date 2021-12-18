@@ -17,6 +17,8 @@ Window {
 
     CameraModule {
         id: cameraModule
+        context: mainWindow.context.videoViewModel
+
         anchors.fill: parent
     }
 

@@ -1,22 +1,35 @@
 #pragma once
 
 #include <QObject>
-#include <QVideoSink>
+#include <QtQml/qqmlregistration.h>
 
+#include <QVideoSink>
+#include <QVideoFrame>
+
+using namespace std;
 
 class VideoViewModel : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("!")
 
-    Q_PROPERTY(QVideoSink *videoSink READ VideoSink CONSTANT)
+    Q_PROPERTY(QVideoSink *videoSink
+               READ videoSink
+               WRITE setVideoSink
+               NOTIFY videoSinkChanged)
 
 public:
-    VideoViewModel() {}
+    VideoViewModel();
     virtual ~VideoViewModel() {}
 
 private:
-    QVideoSink *_videoSink;
+    unique_ptr<QVideoSink> _videoSink;
 
 public:
-    QVideoSink *VideoSink() const { return _videoSink; }
+    QVideoSink *videoSink() const;
+    void setVideoSink(QVideoSink *videoSink);
+
+signals:
+    void videoSinkChanged();
 };

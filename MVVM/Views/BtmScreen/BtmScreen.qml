@@ -1,6 +1,8 @@
 import QtQuick 2.0
 
 Window {
+    property var context
+
     id: window
     title: "Systems"
     visible: true
