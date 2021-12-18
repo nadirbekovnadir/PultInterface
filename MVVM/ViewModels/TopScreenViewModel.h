@@ -11,7 +11,7 @@ class TopScreenViewModel : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    //QML_UNCREATABLE("!")
+    QML_UNCREATABLE("!")
 
     Q_PROPERTY(VideoViewModel *videoViewModel READ videoViewModel CONSTANT)
 

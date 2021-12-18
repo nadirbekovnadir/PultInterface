@@ -4,7 +4,6 @@ add_headers(
 )
 
 add_sources(
-    BaseDataHandler.cpp
     VideoHandler.cpp
 )
 
