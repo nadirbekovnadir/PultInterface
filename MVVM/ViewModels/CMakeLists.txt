@@ -1,11 +1,15 @@
-set(HEADERS
-
+add_headers(
+    BotScreenViewModel.h
+    MainViewModel.h
+    TopScreenViewModel.h
+    VideoViewModel.h
 )
 
-set(SOURCES
-    test.cpp
+add_sources(
+    BotScreenViewModel.cpp
+    MainViewModel.cpp
+    TopScreenViewModel.cpp
+    VideoViewModel.cpp
 )
 
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    ${HEADERS}
-    ${SOURCES})
+propagate_to_parent()

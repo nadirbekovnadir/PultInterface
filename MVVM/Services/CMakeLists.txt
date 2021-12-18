@@ -1,11 +1,9 @@
-set(HEADERS
-
+add_headers(
+    CameraHandler.h
 )
 
-set(SOURCES
-    test.cpp
+add_sources(
+    CameraHandler.cpp
 )
 
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    ${HEADERS}
-    ${SOURCES})
+propagate_to_parent()

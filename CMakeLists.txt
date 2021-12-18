@@ -5,17 +5,60 @@ project(PultInterface VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Multimedia REQUIRED)
 
-set(HEADERS
+macro (propagate_to_parent)
+    set (HEADERS ${HEADERS} PARENT_SCOPE)
+    set (SOURCES ${SOURCES} PARENT_SCOPE)
+    set (QML ${QML} PARENT_SCOPE)
+endmacro()
+
+macro (add_headers)
+    file (RELATIVE_PATH _relPath "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND HEADERS "${_relPath}/${_src}")
+        else()
+            list (APPEND HEADERS "${_src}")
+        endif()
+    endforeach()
+endmacro()
+
+macro (add_sources)
+    file (RELATIVE_PATH _relPath "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND SOURCES "${_relPath}/${_src}")
+        else()
+            list (APPEND SOURCES "${_src}")
+        endif()
+    endforeach()
+endmacro()
+
+macro (add_qml)
+    file (RELATIVE_PATH _relPath "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND QML "${_relPath}/${_src}")
+        else()
+            list (APPEND QML "${_src}")
+        endif()
+    endforeach()
+endmacro()
+
+
+add_subdirectory(Domain)
+add_subdirectory(MVVM)
+
+add_headers(
 
 )
 
-set(SOURCES
+add_sources(
     main.cpp
 )
 
-set(QML
+add_qml(
     main.qml
 )
 
@@ -24,17 +67,17 @@ qt_add_executable(${PROJECT_NAME}
     ${SOURCES}
 )
 
+message(STATUS ${QML})
+
 qt_add_qml_module(${PROJECT_NAME}
     URI PultInterface
     VERSION 1.0
     QML_FILES ${QML}
+    DESIGNER_SUPPORTED
 )
-
-add_subdirectory(Domain)
-add_subdirectory(MVVM)
 
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE Qt6::Quick)
+    PRIVATE Qt6::Quick Qt6::Multimedia)

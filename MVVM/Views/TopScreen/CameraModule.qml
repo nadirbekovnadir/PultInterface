@@ -1,12 +1,18 @@
-import QtQuick 2.0
+import QtQuick 2.3
+import QtMultimedia
 
 Item {
-    Rectangle {
-        id: cameraDummy
-        opacity: 0.5
-        color: "#004359"
-        anchors.fill: parent
+    property var context
 
+    id: root
+
+    VideoOutput {
+        id: display
+        anchors.fill: parent
+    }
+
+    Component.onCompleted: {
+        root.context.videoSink = display.videoSink
     }
 }
 

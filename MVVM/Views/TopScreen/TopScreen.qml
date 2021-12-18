@@ -1,13 +1,14 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 6.0
-import FlowView 1.0
 import QtSensors 6.0
 import QtQuick.Templates 6.2
 import QtQuick.Controls.Windows 6.0
 
 
 Window {
+    property var context
+
     id: mainWindow
     width: 640
     height: 480
@@ -16,6 +17,8 @@ Window {
 
     CameraModule {
         id: cameraModule
+        context: mainWindow.context.videoViewModel
+
         anchors.fill: parent
     }
 
