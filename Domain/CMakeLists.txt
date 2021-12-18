@@ -1,4 +1,3 @@
-add_subdirectory(Entities)
-add_subdirectory(Services)
+add_subdirectory(Video)
 
 propagate_to_parent()
