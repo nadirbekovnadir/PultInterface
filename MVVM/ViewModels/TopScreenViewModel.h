@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QObject>
-#include <QtQml/qqmlregistration.h>
 
 #include "CameraModuleViewModel.h"
 
@@ -10,8 +9,6 @@ using namespace std;
 class TopScreenViewModel : public QObject
 {
     Q_OBJECT
-    QML_ELEMENT
-    QML_UNCREATABLE("!")
 
     Q_PROPERTY(CameraModuleViewModel *cameraModuleViewModel READ cameraModuleViewModel CONSTANT)
 

@@ -3,15 +3,15 @@
 #include "IDataProvider.h"
 
 //Пока это все затычка
-class EthernetVideoProvider final : IDataProvider<int>
+class EthernetVideoProvider final : public IDataProvider<int>
 {
     int _testCounter = 0;
     bool _isOpened = false;
 
 public:
-    virtual void open();
-    virtual void close();
-    virtual bool isOpened();
+    virtual void open() override;
+    virtual void close() override;
+    virtual bool isOpened() override;
 
     bool tryGet(int &data) override;
 };

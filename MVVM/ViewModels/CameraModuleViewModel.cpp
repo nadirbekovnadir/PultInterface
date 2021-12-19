@@ -1,9 +1,15 @@
 #include "CameraModuleViewModel.h"
 #include <QDebug>
 
-CameraModuleViewModel::CameraModuleViewModel()
+CameraModuleViewModel::CameraModuleViewModel(
+    unique_ptr<VideoProcessingHandler> videoProcessingHandler)
 {
-    //
+    _videoProcessingHandler = move(videoProcessingHandler);
+
+    connect(_videoProcessingHandler.get(), &VideoProcessingHandler::dataReady,
+            this, &CameraModuleViewModel::dataReadyHandler);
+
+    _videoProcessingHandler->start();
 }
 
 
@@ -20,7 +26,7 @@ void CameraModuleViewModel::setVideoSink(QVideoSink *videoSink)
     emit videoSinkChanged();
 }
 
-VideoViewModel *CameraModuleViewModel::videoViewModel()
+void CameraModuleViewModel::dataReadyHandler(const ProcessedVideo &processedVideo)
 {
-    return &_videoViewModel;
+    _videoSink->setVideoFrame(processedVideo.frame);
 }

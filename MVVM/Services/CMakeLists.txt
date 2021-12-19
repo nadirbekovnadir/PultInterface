@@ -1,10 +1,10 @@
 add_headers(
-    BaseDataHandler.h
-    VideoViewProducer.h
+    BaseProcessingHandler.h
+    VideoProcessingHandler.h
 )
 
 add_sources(
-    VideoViewProducer.cpp
+    VideoProcessingHandler.cpp
 )
 
 propagate_to_parent()

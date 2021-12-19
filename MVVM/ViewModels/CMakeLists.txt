@@ -2,7 +2,6 @@ add_headers(
     BotScreenViewModel.h
     MainViewModel.h
     TopScreenViewModel.h
-    VideoViewModel.h
     CameraModuleViewModel.h
 )
 

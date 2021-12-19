@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QObject>
-#include <QtQml/qqmlregistration.h>
 
 #include "TopScreenViewModel.h"
 #include "BotScreenViewModel.h"
@@ -11,8 +10,6 @@ using namespace std;
 class MainViewModel : public  QObject
 {
     Q_OBJECT
-    QML_ELEMENT
-    QML_UNCREATABLE("!")
 
     Q_PROPERTY(TopScreenViewModel *topScreenViewModel READ topScreenViewModel CONSTANT)
     Q_PROPERTY(BotScreenViewModel *botScreenViewModel READ botScreenViewModel CONSTANT)

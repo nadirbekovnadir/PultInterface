@@ -1,35 +1,33 @@
 #pragma once
 
 #include <QObject>
-#include <QtQml/qqmlregistration.h>
 
 #include <QVideoSink>
 #include <QVideoFrame>
 
-#include "VideoViewModel.h"
+#include "../Services/VideoProcessingHandler.h"
+#include "../Models/ProcessedVideo.h"
 
 using namespace std;
 
 class CameraModuleViewModel : public QObject
 {
     Q_OBJECT
-    QML_ELEMENT
-    QML_UNCREATABLE("!")
 
     Q_PROPERTY(QVideoSink *videoSink
                READ videoSink
                WRITE setVideoSink
                NOTIFY videoSinkChanged)
 
-    Q_PROPERTY(VideoViewModel *videoViewModel READ videoViewModel CONSTANT)
-
 public:
-    CameraModuleViewModel();
+    CameraModuleViewModel(
+        unique_ptr<VideoProcessingHandler> videoProcessingHandler);
     virtual ~CameraModuleViewModel() {}
 
 private:
     QVideoSink *_videoSink;
-    VideoViewModel _videoViewModel;
+    unique_ptr<VideoProcessingHandler> _videoProcessingHandler;
+    ProcessedVideo _processedVideo;
 
 public:
     // Так как объект приходит из вююхи
@@ -38,7 +36,8 @@ public:
     QVideoSink *videoSink() const;
     void setVideoSink(QVideoSink *videoSink);
 
-    VideoViewModel *videoViewModel();
+public slots:
+    void dataReadyHandler(const ProcessedVideo &processedVideo);
 
 signals:
     void videoSinkChanged();

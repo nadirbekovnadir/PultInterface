@@ -7,14 +7,22 @@
 #include "Domain/Video/IDataProcessor.h"
 
 template <class T_DATA, class T_IN, class T_OUT>
-class BaseDataHandler
+class BaseProcessingHandler
 {
 public:
-    BaseDataHandler(
-        std::shared_ptr<IDataProvider<T_DATA>> provider,
-        std::shared_ptr<IDataProcessor<T_DATA, T_IN>> processor,
-        bool withProcessing = true);
-    virtual ~BaseDataHandler() = default;
+    enum Status{
+        INITIAL = 0,
+        RECIEVED = 1,
+        PROCESSED = 2,
+        CONVERTED = 3
+    };
+
+public:
+    BaseProcessingHandler(
+        std::unique_ptr<IDataProvider<T_DATA>> provider,
+        std::unique_ptr<IDataProcessor<T_DATA, T_IN>> processor,
+        bool withProcessing);
+    virtual ~BaseProcessingHandler() = default;
 
 public:
     void start();
@@ -29,8 +37,8 @@ private:
 private:
     bool _withProcessing = true;
 
-    std::shared_ptr<IDataProvider<T_DATA>> _provider;
-    std::shared_ptr<IDataProcessor<T_DATA, T_IN>> _processor;
+    std::unique_ptr<IDataProvider<T_DATA>> _provider;
+    std::unique_ptr<IDataProcessor<T_DATA, T_IN>> _processor;
 
 protected:
     virtual bool convertProcessedToOutput(const T_IN &data, T_OUT &result) = 0;
@@ -42,53 +50,53 @@ private:
 };
 
 template<class T_DATA, class T_IN, class T_OUT>
-BaseDataHandler<T_DATA, T_IN, T_OUT>::BaseDataHandler(
-    std::shared_ptr<IDataProvider<T_DATA>> provider,
-    std::shared_ptr<IDataProcessor<T_DATA, T_IN>> processor,
+BaseProcessingHandler<T_DATA, T_IN, T_OUT>::BaseProcessingHandler(
+    std::unique_ptr<IDataProvider<T_DATA>> provider,
+    std::unique_ptr<IDataProcessor<T_DATA, T_IN>> processor,
     bool withProcessing)
-    : _provider(provider), _processor(_processor),
-      _withProcessing(withProcessing)
+    : _withProcessing(withProcessing)
 {
-
+    _provider = move(provider);
+    _processor = move(processor);
 }
 
 template<class T_DATA, class T_IN, class T_OUT>
-void BaseDataHandler<T_DATA, T_IN, T_OUT>::start()
+void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::start()
 {
-    _provider.open();
+    _provider->open();
     //Запуск в потоке
-    _future = QtConcurrent::run(this, &BaseDataHandler::processing);
+    _future = QtConcurrent::run(&BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing, this);
     _watcher.setFuture(_future);
 }
 
 template<class T_DATA, class T_IN, class T_OUT>
-void BaseDataHandler<T_DATA, T_IN, T_OUT>::stop()
+void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::stop()
 {
     //Остановка процесса в потоке
     _future.cancel();
-    _provider.close();
+    _provider->close();
 }
 
 template<class T_DATA, class T_IN, class T_OUT>
-bool BaseDataHandler<T_DATA, T_IN, T_OUT>::withProcessing() const
+bool BaseProcessingHandler<T_DATA, T_IN, T_OUT>::withProcessing() const
 {
     return _withProcessing;
 }
 
 template<class T_DATA, class T_IN, class T_OUT>
-void BaseDataHandler<T_DATA, T_IN, T_OUT>::setWithProcessing(bool value)
+void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::setWithProcessing(bool value)
 {
     _withProcessing = value;
 }
 
 template<class T_DATA, class T_IN, class T_OUT>
-void BaseDataHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &promise)
+void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &promise)
 {
-    promise.setProgressRange(0, 4);
+    promise.setProgressRange(0, CONVERTED + 1);
     //Сам процесс обработки
     while(true)
     {   
-        promise.setProgressValue(0);
+        promise.setProgressValue(INITIAL);
         // Конструкция, которая отвечает за установку паузы
         // и отмену обработки
         promise.suspendIfRequested();
@@ -100,7 +108,7 @@ void BaseDataHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &promise)
         if (!isProvider)
             continue;
 
-        promise.setProgressValue(1);
+        promise.setProgressValue(RECIEVED);
 
         promise.suspendIfRequested();
         if (promise.isCanceled())
@@ -111,24 +119,28 @@ void BaseDataHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &promise)
         if (!isProcessor)
             continue;
 
-        promise.setProgressValue(2);
+        promise.setProgressValue(PROCESSED);
 
         promise.suspendIfRequested();
         if (promise.isCanceled())
             break;
 
         T_OUT result;
-        bool isConvert = convertProcessedToOutput(processedData, result);
-        if (isConvert)
+        bool isConvert;
+        if (withProcessing())
+            isConvert = convertProcessedToOutput(processedData, result);
+        else
+            isConvert = convertInputToOutput(data, result);
+        if (!isConvert)
             continue;
 
-        promise.setProgressValue(3);
+        promise.setProgressValue(CONVERTED);
 
         promise.suspendIfRequested();
         if (promise.isCanceled())
             break;
 
-        promise.addResult(result);
+        promise.addResult(std::move(result));
     }
 }
 
