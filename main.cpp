@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    auto videoViewModel = make_shared<VideoViewModel>();
-    auto topScreenViewModel = make_shared<TopScreenViewModel>(videoViewModel);
+    auto cameraModuleViewModel = make_shared<CameraModuleViewModel>();
+    auto topScreenViewModel = make_shared<TopScreenViewModel>(cameraModuleViewModel);
     auto botScreenViewModel = make_shared<BotScreenViewModel>();
 
     MainViewModel *mainViewModel = new MainViewModel(

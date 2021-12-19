@@ -1,8 +1,8 @@
 #include "TopScreenViewModel.h"
 
 TopScreenViewModel::TopScreenViewModel(
-    shared_ptr<VideoViewModel> videoViewModel)
-    : _videoViewModel(videoViewModel)
+    shared_ptr<CameraModuleViewModel> cameraModuleViewModel)
+    : _cameraModuleViewModel(cameraModuleViewModel)
 {
 
 }
