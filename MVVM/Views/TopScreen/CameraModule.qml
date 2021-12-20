@@ -11,7 +11,8 @@ Item {
         anchors.fill: parent
     }
 
-    Component.onCompleted: {
+    onContextChanged:
+    {
         root.context.videoSink = display.videoSink
     }
 }

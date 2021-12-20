@@ -5,6 +5,7 @@
 #include "Domain/Video/EthernetVideoProvider.h"
 #include "Domain/Video/ObjectDetectionProcessor.h"
 
+#include "MVVM/Stores/CameraNavigationStore.h"
 #include "MVVM/Services/VideoProcessingHandler.h"
 #include "MVVM/ViewModels/MainViewModel.h"
 
@@ -27,7 +28,9 @@ int main(int argc, char *argv[])
     auto videoProcessingHandler = make_unique<VideoProcessingHandler>(move(provider), move(processor));
     auto cameraModuleViewModel = make_shared<CameraModuleViewModel>(move(videoProcessingHandler));
 
-    auto topScreenViewModel = make_shared<TopScreenViewModel>(cameraModuleViewModel);
+    auto cameraNavigationStore = make_shared<CameraNavigationStore>(cameraModuleViewModel);
+
+    auto topScreenViewModel = make_shared<TopScreenViewModel>(cameraNavigationStore);
     auto botScreenViewModel = make_shared<BotScreenViewModel>();
 
     MainViewModel *mainViewModel = new MainViewModel(

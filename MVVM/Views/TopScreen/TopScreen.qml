@@ -16,8 +16,8 @@ Window {
     title: "Main"
 
     CameraModule {
-        id: cameraModule
-        context: mainWindow.context.cameraModuleViewModel
+        id: mainCamera
+        context: mainWindow.context.mainCameraViewModel
 
         anchors.fill: parent
     }

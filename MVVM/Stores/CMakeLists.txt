@@ -1,9 +1,9 @@
 add_headers(
-
+    CameraNavigationStore.h
 )
 
 add_sources(
-    test.cpp
+
 )
 
 propagate_to_parent()
