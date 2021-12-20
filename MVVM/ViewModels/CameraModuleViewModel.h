@@ -22,10 +22,10 @@ class CameraModuleViewModel : public QObject
 public:
     CameraModuleViewModel(
         unique_ptr<VideoProcessingHandler> videoProcessingHandler);
-    virtual ~CameraModuleViewModel() {}
+    virtual ~CameraModuleViewModel();
 
 private:
-    QVideoSink *_videoSink;
+    QVideoSink *_videoSink = nullptr;
     unique_ptr<VideoProcessingHandler> _videoProcessingHandler;
     ProcessedVideo _processedVideo;
 

@@ -1,5 +1,5 @@
-#add_qml(
+add_qml(
+    CameraModule.qml
+)
 
-#)
-
-#propagate_to_parent()
+propagate_to_parent()

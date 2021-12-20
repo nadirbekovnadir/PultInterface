@@ -1,6 +1,5 @@
 add_qml(
     TopScreen.qml
-    CameraModule.qml
     HorizonModule.qml
     CompassModule.qml
     DepthModule.qml

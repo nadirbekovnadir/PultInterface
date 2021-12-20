@@ -10,24 +10,24 @@ class CameraNavigationStore : public QObject
 
 public:
     CameraNavigationStore(
-        shared_ptr<CameraModuleViewModel> mainCamera)
+        CameraModuleViewModel *mainCamera)
         : _mainCamera(mainCamera) {}
     virtual ~CameraNavigationStore() = default;
 
 public:
-    shared_ptr<CameraModuleViewModel> mainCamera() const
+    CameraModuleViewModel *mainCamera() const
     {
         return _mainCamera;
     }
 
-    void setMainCamera(shared_ptr<CameraModuleViewModel> value)
+    void setMainCamera(CameraModuleViewModel *value)
     {
         _mainCamera = value;
         emit mainCameraChanged();
     }
 
 private:
-    shared_ptr<CameraModuleViewModel> _mainCamera;
+    CameraModuleViewModel *_mainCamera;
 
 signals:
     void mainCameraChanged();

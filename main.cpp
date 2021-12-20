@@ -21,23 +21,48 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
+    //Providers
+    auto oneProvider = make_unique<EthernetVideoProvider>();
+    auto twoProvider = make_unique<EthernetVideoProvider>();
 
-    auto provider = make_unique<EthernetVideoProvider>();
-    auto processor = make_unique<ObjectDetectionProcessor>();
+    //Processors
+    auto oneProcessor = make_unique<ObjectDetectionProcessor>();
+    auto twoProcessor = make_unique<ObjectDetectionProcessor>();
 
-    auto videoProcessingHandler = make_unique<VideoProcessingHandler>(move(provider), move(processor));
-    auto cameraModuleViewModel = make_shared<CameraModuleViewModel>(move(videoProcessingHandler));
+    //Handlers
+    auto oneProcessingHandler = make_unique<VideoProcessingHandler>(
+                move(oneProvider), move(oneProcessor), false);
 
-    auto cameraNavigationStore = make_shared<CameraNavigationStore>(cameraModuleViewModel);
+    auto twoProcessingHandler = make_unique<VideoProcessingHandler>(
+                move(twoProvider), move(twoProcessor), true);
 
-    auto topScreenViewModel = make_shared<TopScreenViewModel>(cameraNavigationStore);
-    auto botScreenViewModel = make_shared<BotScreenViewModel>();
+
+    //ViewModels
+    auto cameraOneViewModel = make_shared<CameraModuleViewModel>(
+                move(oneProcessingHandler));
+
+    auto cameraTwoViewModel = make_shared<CameraModuleViewModel>(
+                move(twoProcessingHandler));
+
+    //Stores
+    auto cameraNavigationStore = make_shared<CameraNavigationStore>(
+                cameraOneViewModel.get());
+
+    //ViewModels
+    auto topScreenViewModel = make_shared<TopScreenViewModel>(
+                cameraNavigationStore);
+
+    auto botScreenViewModel = make_shared<BotScreenViewModel>(
+                cameraNavigationStore,
+                cameraOneViewModel,
+                cameraTwoViewModel);
 
     MainViewModel *mainViewModel = new MainViewModel(
-        topScreenViewModel,
-        botScreenViewModel
+                topScreenViewModel,
+                botScreenViewModel
     );
 
+    //Init
     auto context = engine.rootContext();
     context->setContextObject(mainViewModel);
 

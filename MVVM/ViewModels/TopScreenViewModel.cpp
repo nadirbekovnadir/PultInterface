@@ -4,10 +4,6 @@ TopScreenViewModel::TopScreenViewModel(
     shared_ptr<CameraNavigationStore> cameraNavigationStore)
     : _cameraNavigationStore(cameraNavigationStore)
 {
-
-}
-
-void TopScreenViewModel::onCameraModuleClicked()
-{
-
+    connect(_cameraNavigationStore.get(), &CameraNavigationStore::mainCameraChanged,
+            this, &TopScreenViewModel::mainCameraViewModelChanged);
 }

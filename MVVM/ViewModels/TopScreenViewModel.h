@@ -21,16 +21,13 @@ private:
 public:
     CameraModuleViewModel* mainCameraViewModel() const
     {
-        return _cameraNavigationStore->mainCamera().get();
+        return _cameraNavigationStore->mainCamera();
     }
 
 public:
     TopScreenViewModel(
         shared_ptr<CameraNavigationStore> cameraNavigationStore);
-    virtual ~TopScreenViewModel() {}
-
-public slots:
-    void onCameraModuleClicked();
+    virtual ~TopScreenViewModel() = default;
 
 signals:
     void mainCameraViewModelChanged();
