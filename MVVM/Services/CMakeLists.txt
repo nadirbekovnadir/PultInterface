@@ -1,9 +1,10 @@
 add_headers(
-    CameraHandler.h
+    BaseProcessingHandler.h
+    VideoProcessingHandler.h
 )
 
 add_sources(
-    CameraHandler.cpp
+    VideoProcessingHandler.cpp
 )
 
 propagate_to_parent()

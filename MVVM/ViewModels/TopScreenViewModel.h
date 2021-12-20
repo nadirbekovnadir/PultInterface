@@ -1,28 +1,25 @@
 #pragma once
 
 #include <QObject>
-#include <QtQml/qqmlregistration.h>
 
-#include "VideoViewModel.h"
+#include "CameraModuleViewModel.h"
 
 using namespace std;
 
 class TopScreenViewModel : public QObject
 {
     Q_OBJECT
-    QML_ELEMENT
-    //QML_UNCREATABLE("!")
 
-    Q_PROPERTY(VideoViewModel *videoViewModel READ videoViewModel CONSTANT)
+    Q_PROPERTY(CameraModuleViewModel *cameraModuleViewModel READ cameraModuleViewModel CONSTANT)
 
 private:
-    shared_ptr<VideoViewModel> _videoViewModel;
+    shared_ptr<CameraModuleViewModel> _cameraModuleViewModel;
 
 public:
-    VideoViewModel* videoViewModel() const { return _videoViewModel.get(); }
+    CameraModuleViewModel* cameraModuleViewModel() const { return _cameraModuleViewModel.get(); }
 
 public:
     TopScreenViewModel(
-        shared_ptr<VideoViewModel> videoViewModel);
+        shared_ptr<CameraModuleViewModel> cameraModuleViewModel);
     virtual ~TopScreenViewModel() {}
 };

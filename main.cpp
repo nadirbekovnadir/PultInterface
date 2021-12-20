@@ -2,6 +2,10 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "Domain/Video/EthernetVideoProvider.h"
+#include "Domain/Video/ObjectDetectionProcessor.h"
+
+#include "MVVM/Services/VideoProcessingHandler.h"
 #include "MVVM/ViewModels/MainViewModel.h"
 
 int main(int argc, char *argv[])
@@ -16,8 +20,14 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    auto videoViewModel = make_shared<VideoViewModel>();
-    auto topScreenViewModel = make_shared<TopScreenViewModel>(videoViewModel);
+
+    auto provider = make_unique<EthernetVideoProvider>();
+    auto processor = make_unique<ObjectDetectionProcessor>();
+
+    auto videoProcessingHandler = make_unique<VideoProcessingHandler>(move(provider), move(processor));
+    auto cameraModuleViewModel = make_shared<CameraModuleViewModel>(move(videoProcessingHandler));
+
+    auto topScreenViewModel = make_shared<TopScreenViewModel>(cameraModuleViewModel);
     auto botScreenViewModel = make_shared<BotScreenViewModel>();
 
     MainViewModel *mainViewModel = new MainViewModel(
