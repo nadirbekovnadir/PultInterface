@@ -43,10 +43,14 @@ private:
 protected:
     virtual bool convertProcessedToOutput(const T_IN &data, T_OUT &result) = 0;
     virtual bool convertInputToOutput(const T_DATA &data, T_OUT &result) = 0;
+    virtual void resultReadyCallback(const T_OUT &result) = 0;
+
     // Немного костыльное окошко в мир сигналов и слотов
     QFutureWatcher<T_OUT> _watcher;
+
 private:
     QFuture<T_OUT> _future;
+
 };
 
 template<class T_DATA, class T_IN, class T_OUT>
@@ -92,10 +96,9 @@ void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::setWithProcessing(bool value)
 template<class T_DATA, class T_IN, class T_OUT>
 void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &promise)
 {
-    promise.setProgressRange(0, CONVERTED + 1);
     //Сам процесс обработки
     while(true)
-    {   
+    {
         promise.setProgressValue(INITIAL);
         // Конструкция, которая отвечает за установку паузы
         // и отмену обработки
@@ -140,7 +143,8 @@ void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &pro
         if (promise.isCanceled())
             break;
 
-        promise.addResult(std::move(result));
+        //promise.addResult(std::move(result), 0);
+        resultReadyCallback(result);
     }
 }
 

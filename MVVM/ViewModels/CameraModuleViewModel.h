@@ -3,7 +3,7 @@
 #include <QObject>
 
 #include <QVideoSink>
-#include <QVideoFrame>
+#include <QPixmap>
 
 #include "../Services/VideoProcessingHandler.h"
 #include "../Models/ProcessedVideo.h"
@@ -14,18 +14,16 @@ class CameraModuleViewModel : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVideoSink *videoSink
-               READ videoSink
-               WRITE setVideoSink
-               NOTIFY videoSinkChanged)
+    Q_PROPERTY(QPixmap frame
+               READ frame
+               NOTIFY frameChanged)
 
 public:
     CameraModuleViewModel(
         unique_ptr<VideoProcessingHandler> videoProcessingHandler);
-    virtual ~CameraModuleViewModel() {}
+    virtual ~CameraModuleViewModel();
 
 private:
-    QVideoSink *_videoSink;
     unique_ptr<VideoProcessingHandler> _videoProcessingHandler;
     ProcessedVideo _processedVideo;
 
@@ -33,12 +31,11 @@ public:
     // Так как объект приходит из вююхи
     // не стоит использовать уникальный указатель,
     // чтобы не высвободить память, которая еще используется
-    QVideoSink *videoSink() const;
-    void setVideoSink(QVideoSink *videoSink);
+    QPixmap frame();
 
 public slots:
     void dataReadyHandler(const ProcessedVideo &processedVideo);
 
 signals:
-    void videoSinkChanged();
+    void frameChanged();
 };

@@ -2,6 +2,7 @@
 
 #include <QObject>
 
+#include "../Stores/CameraNavigationStore.h"
 #include "CameraModuleViewModel.h"
 
 using namespace std;
@@ -10,16 +11,24 @@ class TopScreenViewModel : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(CameraModuleViewModel *cameraModuleViewModel READ cameraModuleViewModel CONSTANT)
+    Q_PROPERTY(CameraModuleViewModel *mainCameraViewModel
+               READ mainCameraViewModel
+               NOTIFY mainCameraViewModelChanged)
 
 private:
-    shared_ptr<CameraModuleViewModel> _cameraModuleViewModel;
+    shared_ptr<CameraNavigationStore> _cameraNavigationStore;
 
 public:
-    CameraModuleViewModel* cameraModuleViewModel() const { return _cameraModuleViewModel.get(); }
+    CameraModuleViewModel* mainCameraViewModel() const
+    {
+        return _cameraNavigationStore->mainCamera();
+    }
 
 public:
     TopScreenViewModel(
-        shared_ptr<CameraModuleViewModel> cameraModuleViewModel);
-    virtual ~TopScreenViewModel() {}
+        shared_ptr<CameraNavigationStore> cameraNavigationStore);
+    virtual ~TopScreenViewModel() = default;
+
+signals:
+    void mainCameraViewModelChanged();
 };

@@ -1,9 +1,9 @@
 add_headers(
-    CameraNavigationStore.h
+    FrameViewer.h
 )
 
 add_sources(
-
+    FrameViewer.cpp
 )
 
 propagate_to_parent()

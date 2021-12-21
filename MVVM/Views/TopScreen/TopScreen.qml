@@ -5,6 +5,7 @@ import QtSensors 6.0
 import QtQuick.Templates 6.2
 import QtQuick.Controls.Windows 6.0
 
+import "../Common"
 
 Window {
     property var context
@@ -16,10 +17,14 @@ Window {
     title: "Main"
 
     CameraModule {
-        id: cameraModule
-        context: mainWindow.context.cameraModuleViewModel
-
+        id: mainCamera
+        context: mainWindow.context.mainCameraViewModel
         anchors.fill: parent
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: console.log(mainCamera.context)
+        }
     }
 
     TickerModule {
