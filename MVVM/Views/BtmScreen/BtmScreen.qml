@@ -11,24 +11,29 @@ Window {
     width: 640
     height: 480
 
-//    CameraModule {
-//        id: cameraOne
-//        context: window.context.cameraOneViewModel
+    CameraModule {
+        id: cameraOne
+        context: window.context.cameraOneViewModel
 
-//        anchors.fill: parent
-//        anchors.rightMargin: 336
+        x: 200
+        y: 0
+        width: 200
+        height: 200
 
-//        MouseArea {
-//            anchors.fill: parent
-//            onClicked: window.context.onCameraModuleClicked(cameraOne.context)
-//        }
-//    }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: window.context.onCameraModuleClicked(cameraOne.context)
+        }
+    }
 
     CameraModule {
         id: cameraTwo
         context: window.context.cameraTwoViewModel
 
-        anchors.fill: parent
+        x: 0
+        y: 0
+        width: 200
+        height: 200
 
         MouseArea {
             anchors.fill: parent

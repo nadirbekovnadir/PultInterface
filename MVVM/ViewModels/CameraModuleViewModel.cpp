@@ -17,24 +17,13 @@ CameraModuleViewModel::~CameraModuleViewModel()
     _videoProcessingHandler->stop();
 }
 
-
-QVideoSink *CameraModuleViewModel::videoSink() const { return _videoSink; }
-void CameraModuleViewModel::setVideoSink(QVideoSink *videoSink)
+QPixmap CameraModuleViewModel::frame()
 {
-    if (videoSink == _videoSink)
-        return;
-
-//    qDebug() << "sink changed";
-
-    _videoSink = videoSink;
-
-    emit videoSinkChanged();
+    return _processedVideo.frame;
 }
 
 void CameraModuleViewModel::dataReadyHandler(const ProcessedVideo &processedVideo)
 {
-    if (_videoSink == nullptr)
-        return;
-
-    _videoSink->setVideoFrame(processedVideo.frame);
+    _processedVideo = processedVideo;
+    emit frameChanged();
 }

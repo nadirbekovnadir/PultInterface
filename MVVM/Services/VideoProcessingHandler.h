@@ -24,12 +24,12 @@ public:
 protected:
     bool convertProcessedToOutput(const float &data, ProcessedVideo &result) override;
     bool convertInputToOutput(const int &data, ProcessedVideo &result) override;
+    void resultReadyCallback(const ProcessedVideo &result) override;
 
 private slots:
-    void resultReadyHandler(int index);
     void statusChangedHandler(int value);
 
 signals:
-    void dataReady(const ProcessedVideo &frame);
+    void dataReady(ProcessedVideo frame);
     void statusChanged(BaseProcessingHandler<int, float, ProcessedVideo>::Status status);
 };

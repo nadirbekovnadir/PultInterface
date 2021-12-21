@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include <MVVM/Views/Custom/FrameViewer.h>
+
 #include "Domain/Video/EthernetVideoProvider.h"
 #include "Domain/Video/ObjectDetectionProcessor.h"
 
@@ -20,6 +22,9 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    //Register types
+    qmlRegisterType<FrameViewer>("Views.Custom", 1, 0, "FrameViewer");
 
     //Providers
     auto oneProvider = make_unique<EthernetVideoProvider>();

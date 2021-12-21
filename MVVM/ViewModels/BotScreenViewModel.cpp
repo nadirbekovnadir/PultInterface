@@ -3,6 +3,13 @@
 void BotScreenViewModel::onCameraModuleClicked(CameraModuleViewModel *cameraViewModel)
 {
     qDebug() << "Type of camera" << cameraViewModel->staticMetaObject.className();
+
+    if (cameraViewModel == _cameraOneViewModel.get())
+        qDebug() << "first";
+
+    if (cameraViewModel == _cameraTwoViewModel.get())
+            qDebug() << "second";
+
     _cameraNavigationStore->setMainCamera(cameraViewModel);
 }
 

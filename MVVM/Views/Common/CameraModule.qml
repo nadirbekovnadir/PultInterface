@@ -1,19 +1,17 @@
 import QtQuick 2.3
 import QtMultimedia
 
+import Views.Custom 1.0
+
 Item {
     property var context
 
     id: root
 
-    VideoOutput {
+    FrameViewer {
         id: display
         anchors.fill: parent
-    }
-
-    onContextChanged:
-    {
-        root.context.videoSink = display.videoSink
+        frame: root.context.frame
     }
 }
 

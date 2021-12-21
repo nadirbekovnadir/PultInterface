@@ -23,7 +23,7 @@ Window {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: console.log(mainWindow.context.mainCameraViewModel)
+            onClicked: console.log(mainCamera.context)
         }
     }
 

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <QObject>
-#include <QVideoFrame>
+#include <QPixmap>
 
 class ProcessedVideo
 {
 public:
-    QVideoFrame frame;
+    QPixmap frame;
     int data = -1;
     float processedData = -1;
 };
