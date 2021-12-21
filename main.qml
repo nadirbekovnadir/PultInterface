@@ -4,5 +4,5 @@ import "C:/Users/dimad/Documents/Prjct_Interface/PultInterface/MVVM/Views/BtmScr
 
 Item {
     TopScreen{}
-    BtmScreen{}
+    //BtmScreen{}
 }
