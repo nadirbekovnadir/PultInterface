@@ -1,6 +1,5 @@
 import QtQuick 2.3
 import QtMultimedia
-
 import Views.Custom 1.0
 
 Item {

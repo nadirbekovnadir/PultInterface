@@ -3,92 +3,146 @@ import QtQuick 2.0
 import "../Common"
 
 Window {
-    property var context
-
-    id: window
+    id: sysWindow
     title: "Systems"
     visible: true
     color: "#434343"
+    minimumHeight: 480
+    minimumWidth: 640
     width: 640
     height: 480
 
+    property var context
+
+    property real spacingFill: 0.03
+
+    property int widthRatio: 16
+    property int heightRatio: 16
+    property real aspectRatio: heightRatio / widthRatio
+
+    property int marginsHorizontal: aspectRatio * sysWindow.width * spacingFill
+    property int marginsVertical: aspectRatio * sysWindow.height * spacingFill
+
+    property real textBoxesRatio: 0.05
+    property int textBoxesSize: sysWindow.height *sysWindow.textBoxesRatio
+
     Column {
-        id: leftColumn
+        id: rightColumn
         anchors.left: parent.right
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.leftMargin: -200
-        anchors.rightMargin: margin
-        anchors.bottomMargin: margin
-        anchors.topMargin: margin
-        
-        CameraModule {
-            id: cameraOne
-            context: window.context.cameraOneViewModel
+        anchors.topMargin: sysWindow.marginsVertical
+        anchors.leftMargin: - rightColumn.height * 0.5
+        spacing: sysWindow.height * sysWindow.spacingFill
+        anchors.rightMargin: sysWindow.marginsHorizontal
+        anchors.bottomMargin: sysWindow.marginsVertical
 
-            x: 200
-            y: 0
-            width: 200
-            height: 200
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: window.context.onCameraModuleClicked(cameraOne.context)
-            }
-        }
-
-        CameraModule {
-            id: cameraTwo
-            context: window.context.cameraTwoViewModel
-
-            x: 0
-            y: 0
-            width: 200
-            height: 200
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: window.context.onCameraModuleClicked(cameraTwo.context)
-            }
-        }
+        property int numOfModules: 4
+        property int moduleWidth: rightColumn.width
+        property int moduleHeight: (rightColumn.height - (numOfModules - 1) * spacing) / numOfModules
 
         ChangeWorkStateModule {
             id: changeWorkStateModule
-            width: 284
-            height: 113
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
 
         SystemCtrlsModule {
             id: systemCtrlsModule
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
 
         IMUModule {
-            id: iMUModule
+            id: imuModule
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
 
         DiagnosticsModule {
             id: diagnosticsModule
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
     }
 
     Column {
-        id: rightColumn
-        x: 40
-        y: 40
+        id: leftColumn
         anchors.left: parent.left
-        anchors.right: leftColumn.left
+        anchors.right: rightColumn.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.rightMargin: margin
-        anchors.bottomMargin: margin
-        anchors.topMargin: margin
-        anchors.leftMargin: margin
+        anchors.rightMargin: sysWindow.marginsHorizontal
+        anchors.bottomMargin: sysWindow.marginsVertical
+        anchors.leftMargin: sysWindow.marginsVertical
+        anchors.topMargin: sysWindow.marginsVertical
+        spacing: sysWindow.height * sysWindow.spacingFill
 
+        property int numOfModules: 2
+        property int moduleWidth: leftColumn.width
+        property int moduleHeight: (leftColumn.height - (numOfModules - 1) * spacing) / numOfModules
+
+        Item {
+            id: btmCamerasModule
+            width: leftColumn.width
+            height: leftColumn.height * 0.5
+            visible: true
+
+            VideoRecorderModule {
+                id: videoRecorderModule
+                x: 0
+                y: 0
+                height: sysWindow.textBoxesSize
+                width: parent.width
+
+            }
+
+            Row {
+                id: camerasRow
+                spacing: sysWindow.width * sysWindow.spacingFill
+
+                property int numOfCameras: 2
+                property real cameraHeight: btmCamerasModule.height
+                property real cameraWidth: (leftColumn.width - (numOfCameras - 1) * spacing) / numOfCameras
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: videoRecorderModule.bottom
+                anchors.bottom: parent.bottom
+                anchors.topMargin: sysWindow.marginsVertical
+
+                CameraModule {
+                    id: cameraOne
+                    context: window.context.cameraOneViewModel
+                    width: camerasRow.cameraWidth
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: window.context.onCameraModuleClicked(cameraOne.context)
+                    }
+                }
+
+                CameraModule {
+                    id: cameraTwo
+                    context: window.context.cameraTwoViewModel
+                    width: camerasRow.cameraWidth
+
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: window.context.onCameraModuleClicked(cameraTwo.context)
+                    }
+                }
+            }
+        }
         MapAndSysModule {
             id: mapAndSysModule
-            width: 384
-            height: 220
+            width: leftColumn.moduleWidth
+            height: leftColumn.height - btmCamerasModule.height - leftColumn.spacing
         }
     }
 
