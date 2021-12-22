@@ -1,12 +1,7 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 6.0
-import QtSensors 6.0
-import QtQuick.Templates 6.2
-import QtQuick.Controls.Windows 6.0
-import QtQuick.Window 2.14
 
 import "../Common"
+import "../TopScreen/Compass"
 
 Window {
     property var context
@@ -33,8 +28,6 @@ Window {
     CameraModule {
         id: mainCamera
         anchors.fill: parent
-        clip: true
-        transformOrigin: Item.Center
         context: mainWindow.context.mainCameraViewModel
 
         MouseArea {
