@@ -74,9 +74,9 @@ Window {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.rightMargin: sysWindow.marginsHorizontal
-        anchors.bottomMargin: sysWindow.marginsHorizontal
+        anchors.bottomMargin: sysWindow.marginsVertical
         anchors.leftMargin: sysWindow.marginsVertical
-        anchors.topMargin: sysWindow.marginsHorizontal
+        anchors.topMargin: sysWindow.marginsVertical
         spacing: sysWindow.height * sysWindow.spacingFill
         
         property int numOfModules: 2
