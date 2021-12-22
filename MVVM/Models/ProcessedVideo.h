@@ -3,10 +3,10 @@
 #include <QObject>
 #include <QPixmap>
 
+//Да-да, это не структура!
 class ProcessedVideo
 {
 public:
     QPixmap frame;
-    int data = -1;
-    float processedData = -1;
+    std::list<QRect> boundBoxes;
 };

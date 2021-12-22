@@ -8,10 +8,10 @@ Item {
 
     id: root
 
-    FrameViewer {
+    ProcessedVideoViewer {
         id: display
         anchors.fill: parent
-        frame: root.context.frame
+        model: root.context.processedVideo
     }
 }
 

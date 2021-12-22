@@ -6,17 +6,15 @@
 #include "Domain/Video/IDataProvider.h"
 #include "Domain/Video/IDataProcessor.h"
 
+#ifdef QT_DEBUG
+    #include <QElapsedTimer>
+#endif
+
+//В идеале надо все это реализовывать без Qt
+
 template <class T_DATA, class T_IN, class T_OUT>
 class BaseProcessingHandler
 {
-public:
-    enum Status{
-        INITIAL = 0,
-        RECIEVED = 1,
-        PROCESSED = 2,
-        CONVERTED = 3
-    };
-
 public:
     BaseProcessingHandler(
         std::unique_ptr<IDataProvider<T_DATA>> provider,
@@ -45,11 +43,13 @@ protected:
     virtual bool convertInputToOutput(const T_DATA &data, T_OUT &result) = 0;
     virtual void resultReadyCallback(const T_OUT &result) = 0;
 
-    // Немного костыльное окошко в мир сигналов и слотов
-    QFutureWatcher<T_OUT> _watcher;
-
 private:
+    QFutureWatcher<T_OUT> _watcher;
     QFuture<T_OUT> _future;
+
+#ifdef QT_DEBUG
+    QElapsedTimer timer;
+#endif
 
 };
 
@@ -99,34 +99,33 @@ void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &pro
     //Сам процесс обработки
     while(true)
     {
-        promise.setProgressValue(INITIAL);
         // Конструкция, которая отвечает за установку паузы
         // и отмену обработки
         promise.suspendIfRequested();
         if (promise.isCanceled())
             break;
 
+#ifdef QT_DEBUG
+        timer.restart();
+#endif
+
         T_DATA data;
         bool isProvider = _provider->tryGet(data);
         if (!isProvider)
             continue;
 
-        promise.setProgressValue(RECIEVED);
-
-        promise.suspendIfRequested();
-        if (promise.isCanceled())
-            break;
+#ifdef QT_DEBUG
+        int providerTime = timer.elapsed();
+#endif
 
         T_IN processedData;
         bool isProcessor = _processor->run(data, processedData);
         if (!isProcessor)
             continue;
 
-        promise.setProgressValue(PROCESSED);
-
-        promise.suspendIfRequested();
-        if (promise.isCanceled())
-            break;
+#ifdef QT_DEBUG
+        int processorTime = timer.elapsed() - providerTime;
+#endif
 
         T_OUT result;
         bool isConvert;
@@ -137,14 +136,18 @@ void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &pro
         if (!isConvert)
             continue;
 
-        promise.setProgressValue(CONVERTED);
-
-        promise.suspendIfRequested();
-        if (promise.isCanceled())
-            break;
-
         //promise.addResult(std::move(result), 0);
         resultReadyCallback(result);
+
+#ifdef QT_DEBUG
+        int cycle = timer.elapsed();
+
+//        qDebug() << "Cycle:" << cycle
+//                 << "Provider:" << providerTime
+//                 << "Processing:" << processorTime
+//                 << std::hash<std::thread::id>{}(std::this_thread::get_id());
+#endif
+
     }
 }
 

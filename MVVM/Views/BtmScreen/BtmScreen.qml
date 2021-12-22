@@ -85,17 +85,6 @@ Window {
         anchors.topMargin: margin
         anchors.leftMargin: margin
 
-        BtmCamerasModule {
-            id: btmCamerasModule
-            width: 243
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 323
-            anchors.leftMargin: margin
-            anchors.topMargin: margin
-        }
-
         MapAndSysModule {
             id: mapAndSysModule
             width: 384

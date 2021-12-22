@@ -1,6 +1,10 @@
 #include "CameraModuleViewModel.h"
 #include <QDebug>
 
+#ifdef QT_DEBUG
+#include <sstream>
+#endif
+
 CameraModuleViewModel::CameraModuleViewModel(
     unique_ptr<VideoProcessingHandler> videoProcessingHandler)
 {
@@ -10,6 +14,10 @@ CameraModuleViewModel::CameraModuleViewModel(
             this, &CameraModuleViewModel::dataReadyHandler);
 
     _videoProcessingHandler->start();
+
+#ifdef QT_DEBUG
+    timer.start();
+#endif
 }
 
 CameraModuleViewModel::~CameraModuleViewModel()
@@ -17,13 +25,17 @@ CameraModuleViewModel::~CameraModuleViewModel()
     _videoProcessingHandler->stop();
 }
 
-QPixmap CameraModuleViewModel::frame()
+ProcessedVideo CameraModuleViewModel::processedVideo()
 {
-    return _processedVideo.frame;
+    return _processedVideo;
 }
 
 void CameraModuleViewModel::dataReadyHandler(const ProcessedVideo &processedVideo)
 {
     _processedVideo = processedVideo;
-    emit frameChanged();
+    emit processedVideoChanged();
+
+#ifdef QT_DEBUG
+    //qDebug() << "Frame: " << timer.restart() << std::hash<std::thread::id>{}(std::this_thread::get_id());
+#endif
 }

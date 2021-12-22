@@ -6,8 +6,6 @@ VideoProcessingHandler::VideoProcessingHandler(
     bool withProcessing)
     : BaseProcessingHandler<int, float, ProcessedVideo>(move(provider), move(processor), withProcessing)
 {
-    connect(&_watcher, &QFutureWatcher<ProcessedVideo>::progressValueChanged,
-            this, &VideoProcessingHandler::statusChangedHandler);
 }
 
 bool VideoProcessingHandler::convertProcessedToOutput(const float &data, ProcessedVideo &result)
@@ -21,8 +19,8 @@ bool VideoProcessingHandler::convertProcessedToOutput(const float &data, Process
     frame.convertFromImage(image);
 
     result.frame = frame;
-    result.data = data;
-    result.processedData = -1;
+    result.boundBoxes.push_back(QRect(100, 80, 50, 50));
+    result.boundBoxes.push_back(QRect(500, 400, 50, 50));
 
     return true;
 }
@@ -38,8 +36,6 @@ bool VideoProcessingHandler::convertInputToOutput(const int &data, ProcessedVide
     frame.convertFromImage(image);
 
     result.frame = frame;
-    result.data = data;
-    result.processedData = -1;
 
     return true;
 }
@@ -47,10 +43,4 @@ bool VideoProcessingHandler::convertInputToOutput(const int &data, ProcessedVide
 void VideoProcessingHandler::resultReadyCallback(const ProcessedVideo &result)
 {
     emit dataReady(result);
-}
-
-void VideoProcessingHandler::statusChangedHandler(int value)
-{
-    emit statusChanged(
-        static_cast<BaseProcessingHandler<int, float, ProcessedVideo>::Status>(value));
 }

@@ -1,9 +1,9 @@
 add_headers(
-    FrameViewer.h
+    ProcessedVideoViewer.h
 )
 
 add_sources(
-    FrameViewer.cpp
+    ProcessedVideoViewer.cpp
 )
 
 propagate_to_parent()

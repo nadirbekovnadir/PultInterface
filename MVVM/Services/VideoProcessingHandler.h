@@ -26,10 +26,6 @@ protected:
     bool convertInputToOutput(const int &data, ProcessedVideo &result) override;
     void resultReadyCallback(const ProcessedVideo &result) override;
 
-private slots:
-    void statusChangedHandler(int value);
-
 signals:
     void dataReady(ProcessedVideo frame);
-    void statusChanged(BaseProcessingHandler<int, float, ProcessedVideo>::Status status);
 };
