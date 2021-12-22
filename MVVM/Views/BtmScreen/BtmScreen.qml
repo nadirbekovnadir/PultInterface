@@ -113,20 +113,20 @@ Window {
 
                 CameraModule {
                     id: cameraOne
-                    context: window.context.cameraOneViewModel
+                    context: sysWindow.context.cameraOneViewModel
                     width: camerasRow.cameraWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: window.context.onCameraModuleClicked(cameraOne.context)
+                        onClicked: sysWindow.context.onCameraModuleClicked(cameraOne.context)
                     }
                 }
 
                 CameraModule {
                     id: cameraTwo
-                    context: window.context.cameraTwoViewModel
+                    context: sysWindow.context.cameraTwoViewModel
                     width: camerasRow.cameraWidth
 
                     anchors.top: parent.top
@@ -134,7 +134,7 @@ Window {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: window.context.onCameraModuleClicked(cameraTwo.context)
+                        onClicked: sysWindow.context.onCameraModuleClicked(cameraTwo.context)
                     }
                 }
             }
