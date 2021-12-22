@@ -27,10 +27,15 @@ Window {
     property int marginsHorizontal: aspectRatio * mainWindow.width * spacingFill
     property int marginsVertical: aspectRatio * mainWindow.height * spacingFill
 
+    property real textBoxesRatio: 0.05
+    property int textBoxesSize: mainWindow.height * mainWindow.textBoxesRatio
+
     CameraModule {
         id: mainCamera
-        context: mainWindow.context.mainCameraViewModel
         anchors.fill: parent
+        clip: true
+        transformOrigin: Item.Center
+        context: mainWindow.context.mainCameraViewModel
 
         MouseArea {
             anchors.fill: parent
@@ -40,13 +45,24 @@ Window {
 
     TickerModule {
         id: tickerModule
-        height: 20
+        height: mainWindow.textBoxesSize
         anchors.left: parent.left
         anchors.right: telemetryColumn.left
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: mainWindow.marginsVertical
         anchors.leftMargin: mainWindow.marginsHorizontal
-        anchors.rightMargin: mainWindow.marginsVertical
+        anchors.bottomMargin: mainWindow.marginsVertical
+        anchors.rightMargin: mainWindow.marginsHorizontal
+    }
+
+    ClockAndElapsedTimeModule {
+        id: clockAndElapsedTimeModule
+        height: mainWindow.textBoxesSize
+        anchors.left: parent.left
+        anchors.right: telemetryColumn.left
+        anchors.top: parent.top
+        anchors.topMargin: mainWindow.marginsVertical
+        anchors.leftMargin: mainWindow.marginsHorizontal
+        anchors.rightMargin: mainWindow.marginsHorizontal
     }
 
     Column {

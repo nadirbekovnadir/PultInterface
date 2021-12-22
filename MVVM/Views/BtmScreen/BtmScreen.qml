@@ -22,6 +22,9 @@ Window {
     
     property int marginsHorizontal: aspectRatio * sysWindow.width * spacingFill
     property int marginsVertical: aspectRatio * sysWindow.height * spacingFill
+
+    property real textBoxesRatio: 0.05
+    property int textBoxesSize: sysWindow.height *sysWindow.textBoxesRatio
     
     Column {
         id: rightColumn
@@ -41,20 +44,26 @@ Window {
         
         ChangeWorkStateModule {
             id: changeWorkStateModule
-            width: 284
-            height: 113
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
         
         SystemCtrlsModule {
             id: systemCtrlsModule
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
         
         IMUModule {
             id: imuModule
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
         
         DiagnosticsModule {
             id: diagnosticsModule
+            width: rightColumn.moduleWidth
+            height: rightColumn.moduleHeight
         }
     }
     
@@ -74,30 +83,40 @@ Window {
         property int moduleWidth: leftColumn.width
         property int moduleHeight: (leftColumn.height - (numOfModules - 1) * spacing) / numOfModules
         
-        
-        
         Item {
             id: btmCamerasModule
             width: leftColumn.width
             height: leftColumn.height * 0.5
             visible: true
 
+            VideoRecorderModule {
+                id: videoRecorderModule
+                x: 0
+                y: 0
+                height: sysWindow.textBoxesSize
+                width: parent.width
+
+            }
+
             Row {
                 id: camerasRow
-                anchors.fill: parent
-                transformOrigin: Item.Center
-                layer.enabled: false
+                spacing: sysWindow.width * sysWindow.spacingFill
 
                 property int numOfCameras: 2
-                spacing: sysWindow.width * sysWindow.spacingFill
-                property int cameraHeight: btmCamerasModule.height
+                property real cameraHeight: btmCamerasModule.height
                 property real cameraWidth: (leftColumn.width - (numOfCameras - 1) * spacing) / numOfCameras
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: videoRecorderModule.bottom
+                anchors.bottom: parent.bottom
+                anchors.topMargin: sysWindow.marginsVertical
 
                 CameraModule {
                     id: cameraOne
                     context: window.context.cameraOneViewModel
                     width: camerasRow.cameraWidth
-                    height: camerasRow.cameraHeight
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
 
                     MouseArea {
                         anchors.fill: parent
@@ -109,7 +128,9 @@ Window {
                     id: cameraTwo
                     context: window.context.cameraTwoViewModel
                     width: camerasRow.cameraWidth
-                    height: camerasRow.cameraHeight
+
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
 
                     MouseArea {
                         anchors.fill: parent

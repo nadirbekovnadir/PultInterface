@@ -5,6 +5,7 @@ add_qml(
     SystemCtrlsModule.qml
     ChangeWorkStateModule.qml
     MapAndSysModule.qml
+    VideoRecorderModule.qml
 )
 
 propagate_to_parent()

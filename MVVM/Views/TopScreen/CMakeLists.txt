@@ -5,6 +5,7 @@ add_qml(
     DepthModule.qml
     ForceModule.qml
     TickerModule.qml
+    ClockAndElapsedTimeModule.qml
 )
 
 propagate_to_parent()
