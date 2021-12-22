@@ -17,7 +17,6 @@ Window {
     visible: true
     minimumWidth: 640
     minimumHeight: 480
-    title: "Main"
 
     property real spacingFill: 0.03
 
@@ -57,7 +56,7 @@ Window {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.topMargin: mainWindow.marginsVertical
-        anchors.leftMargin: - telemetryColumn.height * 0.4
+        anchors.leftMargin: - telemetryColumn.height * 0.5
         spacing: mainWindow.height * mainWindow.spacingFill
         anchors.rightMargin: mainWindow.marginsHorizontal
         anchors.bottomMargin: mainWindow.marginsVertical
@@ -95,8 +94,4 @@ Window {
     }
 }
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:1.1}D{i:1}D{i:2}D{i:4}D{i:5}D{i:6}D{i:7}D{i:3}
-}
-##^##*/
+
