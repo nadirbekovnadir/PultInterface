@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include <MVVM/Views/Custom/ProcessedVideoViewer.h>
+#include <MVVM/Views/Custom/ProcessedVideoPlayer.h>
 
 #include "Domain/Video/EthernetVideoProvider.h"
 #include "Domain/Video/ObjectDetectionProcessor.h"
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     //Register types
-    qmlRegisterType<ProcessedVideoViewer>("Views.Custom", 1, 0, "ProcessedVideoViewer");
+    qmlRegisterType<ProcessedVideoPlayer>("Views.Custom", 1, 0, "ProcessedVideoPlayer");
 
     //Providers
     auto oneProvider = make_unique<EthernetVideoProvider>();

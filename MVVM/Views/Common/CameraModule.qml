@@ -7,10 +7,15 @@ Item {
 
     id: root
 
-    ProcessedVideoViewer {
-        id: display
-        anchors.fill: parent
+    ProcessedVideoPlayer {
+        id: videoPlayer
         model: root.context.processedVideo
+        videoOutput: videoOutput
+    }
+
+    VideoOutput {
+        id: videoOutput
+        anchors.fill: parent
     }
 }
 

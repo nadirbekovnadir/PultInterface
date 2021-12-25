@@ -7,6 +7,6 @@
 class ProcessedVideo
 {
 public:
-    QPixmap frame;
+    QImage frame;
     std::list<QRect> boundBoxes;
 };
