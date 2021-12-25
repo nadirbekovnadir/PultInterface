@@ -11,15 +11,11 @@ VideoProcessingHandler::VideoProcessingHandler(
 bool VideoProcessingHandler::convertProcessedToOutput(const float &data, ProcessedVideo &result)
 {
     //Пока что тут будет мегакостыль, так как логика остальных частей еще не готова
-    QVideoFrame frame(QVideoFrameFormat(QSize(640, 480), QVideoFrameFormat::Format_BGRA8888));
-    frame.map(QVideoFrame::WriteOnly);
 
-    QImage image(frame.bits(0), frame.width(), frame.height(), QVideoFrameFormat::imageFormatFromPixelFormat(frame.pixelFormat()));
-    image.fill(QColor(0, 0, int(data) % 255));
+    QImage frame(640, 480, QImage::Format_RGB32);
+    frame.fill(QColor(0, 0, int(data) % 255));
 
-    frame.unmap();
-
-    result.frame = frame;
+    result.frame = std::move(frame);
     result.boundBoxes.push_back(QRect(100, 80, 50, 50));
     result.boundBoxes.push_back(QRect(500, 400, 50, 50));
 
@@ -29,15 +25,13 @@ bool VideoProcessingHandler::convertProcessedToOutput(const float &data, Process
 bool VideoProcessingHandler::convertInputToOutput(const int &data, ProcessedVideo &result)
 {
     //Пока что тут будет мегакостыль, так как логика остальных частей еще не готова    
-    QVideoFrame frame(QVideoFrameFormat(QSize(640, 480), QVideoFrameFormat::Format_BGRA8888));
-    frame.map(QVideoFrame::WriteOnly);
 
-    QImage image(frame.bits(0), frame.width(), frame.height(), QVideoFrameFormat::imageFormatFromPixelFormat(frame.pixelFormat()));
-    image.fill(QColor(0, data % 255, 0));
+    QImage frame(640, 480, QImage::Format_RGB32);
+    frame.fill(QColor(0, 10 * data % 255, 0));
 
-    frame.unmap();
+    result.frame = std::move(frame);
 
-    result.frame = frame;
+    return true;
 
     return true;
 }

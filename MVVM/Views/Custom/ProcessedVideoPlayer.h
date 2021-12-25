@@ -4,13 +4,15 @@
 
 #include <MVVM/Models/ProcessedVideo.h>
 
-#include <QQuickPaintedItem>
 #include <QPainter>
-#include <QPixmap>
+#include <QImage>
 #include <QVideoSink>
+#include <QVideoFrame>
+#include <QVariant>
 
 #ifdef QT_DEBUG
 #include <QElapsedTimer>
+#include <QDebug>
 #endif
 
 class ProcessedVideoPlayer : public QObject
@@ -26,16 +28,19 @@ class ProcessedVideoPlayer : public QObject
                NOTIFY videoOutputChanged)
 
 public:
-    ProcessedVideoPlayer(QQuickItem *parent = nullptr);
+    ProcessedVideoPlayer(QObject *parent = nullptr);
     virtual ~ProcessedVideoPlayer() = default;
 
-    void setModel(ProcessedVideo model);
+    void setModel(const ProcessedVideo &model);
     void setVideoOutput(QObject* videoOutput);
 
 private:
     ProcessedVideo _model;
     QObject* _videoOutput = nullptr;
     QVideoSink* _videoSink = nullptr;
+
+private:
+    void setFrameToSink();
 
 #ifdef QT_DEBUG
 private:
