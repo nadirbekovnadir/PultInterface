@@ -1,12 +1,12 @@
 #pragma once
 
 #include <QObject>
-#include <QPixmap>
+#include <QVideoFrame>
 
 //Да-да, это не структура!
 class ProcessedVideo
 {
 public:
-    QPixmap frame;
+    QVideoFrame frame;
     std::list<QRect> boundBoxes;
 };
