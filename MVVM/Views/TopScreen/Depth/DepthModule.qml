@@ -5,7 +5,7 @@ Item {
     property int size: baseItem.height
 
     Rectangle {
-        id: compassBackground
+        id: depthGaugeBackground
         width: parent.size
         height: parent.size
         color: "#c34a00"
@@ -16,25 +16,24 @@ Item {
     }
 
     Image {
-        id: compassScaleImage
+        id: depthGaugeScaleImage
         width: parent.size
         height: parent.size - 5
         anchors.verticalCenter: parent.verticalCenter
-        source: "compassScale.svg"
+        source: "DepthScale.svg"
+        anchors.horizontalCenterOffset: - depthGaugeBackground.width / 6.5
+        anchors.horizontalCenter: depthGaugeBackground.horizontalCenter
         anchors.verticalCenterOffset: 0
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
         fillMode: Image.PreserveAspectFit
     }
 
     Image {
-        id: compassPointerImage
+        id: depthGaugePointerImage
         width: parent.size
         height: parent.size / 2
-        anchors.verticalCenter: parent.verticalCenter
-        source: "compassPointer.svg"
-        rotation: 0
-        anchors.verticalCenterOffset: 0
+        anchors.bottom: parent.bottom
+        source: "DepthPointer.svg"
+        anchors.bottomMargin: depthGaugeScaleImage.paintedHeight / 2 - depthGaugeScaleImage.paintedHeight * 0.05
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         fillMode: Image.PreserveAspectFit
