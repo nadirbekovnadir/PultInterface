@@ -12,6 +12,8 @@ Window {
     width: 640
     height: 480
 
+    property color baseColor: "#FAAFFF"
+
     property var context
 
     property real spacingFill: 0.03

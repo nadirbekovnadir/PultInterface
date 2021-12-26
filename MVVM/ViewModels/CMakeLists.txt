@@ -22,11 +22,9 @@ add_sources(
 
 #Sensors
 add_headers(
-    PressureSensorViewModel.h
     )
 
 add_sources(
-    PressureSensorViewModel.cpp
     )
 
 propagate_to_parent()
