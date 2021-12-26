@@ -2,6 +2,9 @@ import QtQuick 2.0
 
 import "../Common"
 import "../TopScreen/Compass"
+import "../TopScreen/Altitude"
+import "../TopScreen/Depth"
+import "../TopScreen/Force"
 
 Window {
     property var context
@@ -74,8 +77,8 @@ Window {
         property int moduleWidth: telemetryColumn.width
         property int moduleHeight: (telemetryColumn.height - (numOfModules - 1) * spacing) / numOfModules
 
-        HorizonModule {
-            id: horizonModule
+        AltitudeModule {
+            id: altitudeModule
             width: telemetryColumn.moduleWidth
             height: telemetryColumn.moduleHeight
         }
