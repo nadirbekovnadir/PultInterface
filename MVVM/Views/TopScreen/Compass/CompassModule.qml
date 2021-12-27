@@ -20,7 +20,7 @@ Item {
         width: parent.size
         height: parent.size - 5
         anchors.verticalCenter: parent.verticalCenter
-        source: "compassScale.svg"
+        source: "CompassScale.svg"
         anchors.verticalCenterOffset: 0
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -32,7 +32,7 @@ Item {
         width: parent.size
         height: parent.size / 2
         anchors.verticalCenter: parent.verticalCenter
-        source: "compassPointer.svg"
+        source: "CompassPointer.svg"
         rotation: 0
         anchors.verticalCenterOffset: 0
         anchors.horizontalCenterOffset: 0

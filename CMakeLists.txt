@@ -11,6 +11,7 @@ macro (propagate_to_parent)
     set (HEADERS ${HEADERS} PARENT_SCOPE)
     set (SOURCES ${SOURCES} PARENT_SCOPE)
     set (QML ${QML} PARENT_SCOPE)
+    set (SVG ${SVG} PARENT_SCOPE)
 endmacro()
 
 macro (add_headers)
@@ -47,6 +48,17 @@ macro (add_qml)
 endmacro()
 
 
+macro (add_svg)
+    file (RELATIVE_PATH _relPath "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach (_src ${ARGN})
+        if (_relPath)
+            list (APPEND SVG "${_relPath}/${_src}")
+        else()
+            list (APPEND SVG "${_src}")
+        endif()
+    endforeach()
+endmacro()
+
 add_subdirectory(Domain)
 add_subdirectory(MVVM)
 
@@ -73,6 +85,7 @@ qt_add_qml_module(${PROJECT_NAME}
     URI PultInterface
     VERSION 1.0
     QML_FILES ${QML}
+    RESOURCES ${SVG}
     DESIGNER_SUPPORTED
 )
 

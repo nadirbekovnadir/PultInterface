@@ -5,7 +5,7 @@ add_qml(
 )
 
 add_subdirectory(Compass)
-add_subdirectory(Altitude)
+add_subdirectory(Attitude)
 add_subdirectory(Force)
 add_subdirectory(Depth)
 

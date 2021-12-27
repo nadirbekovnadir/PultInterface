@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import "../Common"
+import "IMUModule"
 
 Window {
     id: sysWindow
@@ -12,21 +13,14 @@ Window {
     width: 640
     height: 480
 
-    property color baseColor: "#FAAFFF"
-
     property var context
 
-    property real spacingFill: 0.03
+    property color baseColor: "#FAAFFF"
 
-    property int widthRatio: 16
-    property int heightRatio: 16
-    property real aspectRatio: heightRatio / widthRatio
+    property int marginsHorizontal: basicScreen.aspectRatio * sysWindow.height * basicScreen.spacingFill
+    property int marginsVertical: basicScreen.aspectRatio * sysWindow.height * basicScreen.spacingFill
 
-    property int marginsHorizontal: aspectRatio * sysWindow.width * spacingFill
-    property int marginsVertical: aspectRatio * sysWindow.height * spacingFill
-
-    property real textBoxesRatio: 0.05
-    property int textBoxesSize: sysWindow.height *sysWindow.textBoxesRatio
+    property int textBoxesSize: sysWindow.height * basicScreen.textBoxesRatio
 
     Column {
         id: rightColumn
@@ -36,7 +30,7 @@ Window {
         anchors.bottom: parent.bottom
         anchors.topMargin: sysWindow.marginsVertical
         anchors.leftMargin: - rightColumn.height * 0.5
-        spacing: sysWindow.height * sysWindow.spacingFill
+        spacing: sysWindow.height * basicScreen.spacingFill
         anchors.rightMargin: sysWindow.marginsHorizontal
         anchors.bottomMargin: sysWindow.marginsVertical
 
@@ -79,7 +73,7 @@ Window {
         anchors.bottomMargin: sysWindow.marginsVertical
         anchors.leftMargin: sysWindow.marginsVertical
         anchors.topMargin: sysWindow.marginsVertical
-        spacing: sysWindow.height * sysWindow.spacingFill
+        spacing: sysWindow.height * basicScreen.spacingFill
 
         property int numOfModules: 2
         property int moduleWidth: leftColumn.width
@@ -93,8 +87,6 @@ Window {
 
             VideoRecorderModule {
                 id: videoRecorderModule
-                x: 0
-                y: 0
                 height: sysWindow.textBoxesSize
                 width: parent.width
 
@@ -102,7 +94,7 @@ Window {
 
             Row {
                 id: camerasRow
-                spacing: sysWindow.width * sysWindow.spacingFill
+                spacing: sysWindow.width * basicScreen.spacingFill
 
                 property int numOfCameras: 2
                 property real cameraHeight: btmCamerasModule.height
@@ -146,6 +138,10 @@ Window {
             width: leftColumn.moduleWidth
             height: leftColumn.height - btmCamerasModule.height - leftColumn.spacing
         }
+    }
+
+    BasicScreen {
+        id: basicScreen
     }
 
 }
