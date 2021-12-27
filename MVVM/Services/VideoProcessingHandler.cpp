@@ -24,14 +24,12 @@ bool VideoProcessingHandler::convertProcessedToOutput(const float &data, Process
 
 bool VideoProcessingHandler::convertInputToOutput(const int &data, ProcessedVideo &result)
 {
-    //Пока что тут будет мегакостыль, так как логика остальных частей еще не готова    
+    //Пока что тут будет мегакостыль, так как логика остальных частей еще не готова
 
     QImage frame(640, 480, QImage::Format_RGB32);
     frame.fill(QColor(0, 10 * data % 255, 0));
 
     result.frame = std::move(frame);
-
-    return true;
 
     return true;
 }

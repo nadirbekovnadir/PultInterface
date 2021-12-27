@@ -46,11 +46,6 @@ protected:
 private:
     QFutureWatcher<T_OUT> _watcher;
     QFuture<T_OUT> _future;
-
-#ifdef QT_DEBUG
-    QElapsedTimer timer;
-#endif
-
 };
 
 template<class T_DATA, class T_IN, class T_OUT>
@@ -105,27 +100,15 @@ void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &pro
         if (promise.isCanceled())
             break;
 
-#ifdef QT_DEBUG
-        timer.restart();
-#endif
-
         T_DATA data;
         bool isProvider = _provider->tryGet(data);
         if (!isProvider)
             continue;
 
-#ifdef QT_DEBUG
-        int providerTime = timer.elapsed();
-#endif
-
         T_IN processedData;
         bool isProcessor = _processor->run(data, processedData);
         if (!isProcessor)
             continue;
-
-#ifdef QT_DEBUG
-        int processorTime = timer.elapsed() - providerTime;
-#endif
 
         T_OUT result;
         bool isConvert;
@@ -138,15 +121,6 @@ void BaseProcessingHandler<T_DATA, T_IN, T_OUT>::processing(QPromise<T_OUT> &pro
 
         //promise.addResult(std::move(result), 0);
         resultReadyCallback(result);
-
-#ifdef QT_DEBUG
-        int cycle = timer.elapsed();
-
-//        qDebug() << "Cycle:" << cycle
-//                 << "Provider:" << providerTime
-//                 << "Processing:" << processorTime
-//                 << std::hash<std::thread::id>{}(std::this_thread::get_id());
-#endif
 
     }
 }

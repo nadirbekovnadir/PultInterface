@@ -17,9 +17,9 @@ class CameraModuleViewModel : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(ProcessedVideo processedVideo
+    Q_PROPERTY(ProcessedVideo *processedVideo
                READ processedVideo
-               NOTIFY processedVideoChanged)
+               CONSTANT)
 
 public:
     CameraModuleViewModel(
@@ -39,7 +39,7 @@ public:
     // Так как объект приходит из вююхи
     // не стоит использовать уникальный указатель,
     // чтобы не высвободить память, которая еще используется
-    ProcessedVideo processedVideo();
+    ProcessedVideo *processedVideo();
 
 public slots:
     void dataReadyHandler(const ProcessedVideo &processedVideo);

@@ -62,14 +62,14 @@ int main(int argc, char *argv[])
                 cameraOneViewModel,
                 cameraTwoViewModel);
 
-    MainViewModel *mainViewModel = new MainViewModel(
+    auto mainViewModel = make_unique<MainViewModel>(
                 topScreenViewModel,
                 botScreenViewModel
     );
 
     //Init
     auto context = engine.rootContext();
-    context->setContextObject(mainViewModel);
+    context->setContextObject(mainViewModel.get());
 
     engine.addImportPath("qrc:/qmldir");
 
