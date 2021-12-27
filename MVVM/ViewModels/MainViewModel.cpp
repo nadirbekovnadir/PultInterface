@@ -10,3 +10,8 @@ MainViewModel::MainViewModel(
 {
 
 }
+
+MainViewModel::~MainViewModel()
+{
+    qDebug() << "MainViewModel destroyd";
+}

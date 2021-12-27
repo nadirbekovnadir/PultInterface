@@ -19,7 +19,7 @@ class ProcessedVideoPlayer : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(ProcessedVideo model
+    Q_PROPERTY(ProcessedVideo *model
                WRITE setModel
                NOTIFY modelChanged)
 
@@ -31,11 +31,11 @@ public:
     ProcessedVideoPlayer(QObject *parent = nullptr);
     virtual ~ProcessedVideoPlayer() = default;
 
-    void setModel(const ProcessedVideo &model);
+    void setModel(ProcessedVideo* model);
     void setVideoOutput(QObject* videoOutput);
 
 private:
-    ProcessedVideo _model;
+    ProcessedVideo *_model;
     QObject* _videoOutput = nullptr;
     QVideoSink* _videoSink = nullptr;
 

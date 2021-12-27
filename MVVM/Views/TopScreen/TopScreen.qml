@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 import "../Common"
 import "../TopScreen/Compass"
-import "../TopScreen/Altitude"
+import "../TopScreen/Attitude"
 import "../TopScreen/Depth"
 import "../TopScreen/Force"
 
@@ -13,20 +13,14 @@ Window {
     width: 640
     height: 480
     visible: true
+    color: "#ffffff"
     minimumWidth: 640
     minimumHeight: 480
 
-    property real spacingFill: 0.03
+    property int marginsHorizontal: basicScreen.aspectRatio * mainWindow.height * basicScreen.spacingFill
+    property int marginsVertical: basicScreen.aspectRatio * mainWindow.height * basicScreen.spacingFill
 
-    property int widthRatio: 16
-    property int heightRatio: 16
-    property real aspectRatio: heightRatio / widthRatio
-
-    property int marginsHorizontal: aspectRatio * mainWindow.width * spacingFill
-    property int marginsVertical: aspectRatio * mainWindow.height * spacingFill
-
-    property real textBoxesRatio: 0.05
-    property int textBoxesSize: mainWindow.height * mainWindow.textBoxesRatio
+    property int textBoxesSize: mainWindow.height * basicScreen.textBoxesRatio
 
     CameraModule {
         id: mainCamera
@@ -69,7 +63,7 @@ Window {
         anchors.bottom: parent.bottom
         anchors.topMargin: mainWindow.marginsVertical
         anchors.leftMargin: - telemetryColumn.height * 0.5
-        spacing: mainWindow.height * mainWindow.spacingFill
+        spacing: mainWindow.height * basicScreen.spacingFill
         anchors.rightMargin: mainWindow.marginsHorizontal
         anchors.bottomMargin: mainWindow.marginsVertical
 
@@ -77,8 +71,8 @@ Window {
         property int moduleWidth: telemetryColumn.width
         property int moduleHeight: (telemetryColumn.height - (numOfModules - 1) * spacing) / numOfModules
 
-        AltitudeModule {
-            id: altitudeModule
+        AttitudeModule {
+            id: attitudeModule
             width: telemetryColumn.moduleWidth
             height: telemetryColumn.moduleHeight
         }
@@ -103,6 +97,10 @@ Window {
             width: telemetryColumn.moduleWidth
             height: telemetryColumn.moduleHeight
         }
+    }
+
+    BasicScreen {
+        id: basicScreen
     }
 }
 
