@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 
     //Register types
     qmlRegisterType<ProcessedVideoPlayer>("Views.Custom", 1, 0, "ProcessedVideoPlayer");
+    qmlRegisterSingletonType(QUrl("qrc:/PultInterface/MVVM/Views/Common/BasicScreen.qml"), "BasicScreen", 1, 0, "BasicScreen");
 
     //Providers
     auto oneProvider = make_unique<EthernetVideoProvider>();

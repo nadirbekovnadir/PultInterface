@@ -17,10 +17,10 @@ Window {
     minimumWidth: 640
     minimumHeight: 480
 
-    property int marginsHorizontal: basicScreen.aspectRatio * mainWindow.height * basicScreen.spacingFill
-    property int marginsVertical: basicScreen.aspectRatio * mainWindow.height * basicScreen.spacingFill
+    property int marginsHorizontal: BasicScreen.aspectRatio * mainWindow.height * BasicScreen.spacingFill
+    property int marginsVertical: BasicScreen.aspectRatio * mainWindow.height * BasicScreen.spacingFill
 
-    property int textBoxesSize: mainWindow.height * basicScreen.textBoxesRatio
+    property int textBoxesSize: mainWindow.height * BasicScreen.textBoxesRatio
 
     CameraModule {
         id: mainCamera
@@ -63,7 +63,7 @@ Window {
         anchors.bottom: parent.bottom
         anchors.topMargin: mainWindow.marginsVertical
         anchors.leftMargin: - telemetryColumn.height * 0.5
-        spacing: mainWindow.height * basicScreen.spacingFill
+        spacing: mainWindow.height * BasicScreen.spacingFill
         anchors.rightMargin: mainWindow.marginsHorizontal
         anchors.bottomMargin: mainWindow.marginsVertical
 
@@ -99,9 +99,11 @@ Window {
         }
     }
 
-    BasicScreen {
-        id: basicScreen
-    }
+//    BasicScreen {
+//        id: basicScreen
+//    }
+
+    Component.onCompleted: console.log(BasicScreen.heightRatio)
 }
 
 
