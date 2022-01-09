@@ -17,10 +17,10 @@ Window {
 
     property color baseColor: "#FAAFFF"
 
-    property int marginsHorizontal: basicScreen.aspectRatio * sysWindow.height * basicScreen.spacingFill
-    property int marginsVertical: basicScreen.aspectRatio * sysWindow.height * basicScreen.spacingFill
+    property int marginsHorizontal: BasicScreen.aspectRatio * sysWindow.height * BasicScreen.spacingFill
+    property int marginsVertical: BasicScreen.aspectRatio * sysWindow.height * BasicScreen.spacingFill
 
-    property int textBoxesSize: sysWindow.height * basicScreen.textBoxesRatio
+    property int textBoxesSize: sysWindow.height * BasicScreen.textBoxesRatio
 
     Column {
         id: rightColumn
@@ -30,7 +30,7 @@ Window {
         anchors.bottom: parent.bottom
         anchors.topMargin: sysWindow.marginsVertical
         anchors.leftMargin: - rightColumn.height * 0.5
-        spacing: sysWindow.height * basicScreen.spacingFill
+        spacing: sysWindow.height * BasicScreen.spacingFill
         anchors.rightMargin: sysWindow.marginsHorizontal
         anchors.bottomMargin: sysWindow.marginsVertical
 
@@ -73,7 +73,7 @@ Window {
         anchors.bottomMargin: sysWindow.marginsVertical
         anchors.leftMargin: sysWindow.marginsVertical
         anchors.topMargin: sysWindow.marginsVertical
-        spacing: sysWindow.height * basicScreen.spacingFill
+        spacing: sysWindow.height * BasicScreen.spacingFill
 
         property int numOfModules: 2
         property int moduleWidth: leftColumn.width
@@ -94,7 +94,7 @@ Window {
 
             Row {
                 id: camerasRow
-                spacing: sysWindow.width * basicScreen.spacingFill
+                spacing: sysWindow.width * BasicScreen.spacingFill
 
                 property int numOfCameras: 2
                 property real cameraHeight: btmCamerasModule.height
@@ -140,8 +140,8 @@ Window {
         }
     }
 
-    BasicScreen {
-        id: basicScreen
-    }
+//    BasicScreen {
+//        id: basicScreen
+//    }
 
 }
