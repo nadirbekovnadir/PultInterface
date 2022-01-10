@@ -16,10 +16,12 @@ void BotScreenViewModel::onCameraModuleClicked(CameraModuleViewModel *cameraView
 BotScreenViewModel::BotScreenViewModel(
         shared_ptr<CameraNavigationStore> cameraNavigationStore,
         shared_ptr<CameraModuleViewModel> cameraOneViewModel,
-        shared_ptr<CameraModuleViewModel> cameraTwoViewModel)
+        shared_ptr<CameraModuleViewModel> cameraTwoViewModel,
+        shared_ptr<MapViewModel> mapViewModel)
     : _cameraNavigationStore(cameraNavigationStore),
       _cameraOneViewModel(cameraOneViewModel),
-      _cameraTwoViewModel(cameraTwoViewModel)
+      _cameraTwoViewModel(cameraTwoViewModel),
+      _mapViewModel(mapViewModel)
 {
 
 }

@@ -19,7 +19,7 @@ class CameraModuleViewModel : public QObject
 
     Q_PROPERTY(ProcessedVideo *processedVideo
                READ processedVideo
-               CONSTANT)
+               NOTIFY processedVideoChanged)
 
 public:
     CameraModuleViewModel(

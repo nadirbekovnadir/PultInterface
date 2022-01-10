@@ -33,7 +33,4 @@ public:
 
     QImage frame;
     std::list<QRect> boundBoxes;
-
-signals:
-    void updated();
 };

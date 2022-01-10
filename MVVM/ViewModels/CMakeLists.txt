@@ -27,4 +27,13 @@ add_headers(
 add_sources(
     )
 
+#Map
+add_headers(
+    MapViewModel.h
+)
+
+add_sources(
+    MapViewModel.cpp
+)
+
 propagate_to_parent()

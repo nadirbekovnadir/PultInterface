@@ -12,10 +12,7 @@ ProcessedVideoPlayer::ProcessedVideoPlayer(QObject *parent)
 void ProcessedVideoPlayer::setModel(ProcessedVideo *model)
 {
     _model = model;
-
-    connect(_model, &ProcessedVideo::updated,
-            this, &ProcessedVideoPlayer::setFrameToSink);
-
+    setFrameToSink();
     emit modelChanged();
 
 #ifdef QT_DEBUG
