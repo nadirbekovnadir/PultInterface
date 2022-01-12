@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
@@ -9,11 +9,12 @@
 
 #include "MVVM/Stores/CameraNavigationStore.h"
 #include "MVVM/Services/VideoProcessingHandler.h"
+#include "MVVM/ViewModels/MapViewModel.h"
 #include "MVVM/ViewModels/MainViewModel.h"
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/PultInterface/main.qml"_qs);
@@ -50,6 +51,8 @@ int main(int argc, char *argv[])
     auto cameraTwoViewModel = make_shared<CameraModuleViewModel>(
                 move(twoProcessingHandler));
 
+    auto mapViewModel = make_shared<MapViewModel>();
+
     //Stores
     auto cameraNavigationStore = make_shared<CameraNavigationStore>(
                 cameraOneViewModel.get());
@@ -61,7 +64,8 @@ int main(int argc, char *argv[])
     auto botScreenViewModel = make_shared<BotScreenViewModel>(
                 cameraNavigationStore,
                 cameraOneViewModel,
-                cameraTwoViewModel);
+                cameraTwoViewModel,
+                mapViewModel);
 
     auto mainViewModel = make_unique<MainViewModel>(
                 topScreenViewModel,
