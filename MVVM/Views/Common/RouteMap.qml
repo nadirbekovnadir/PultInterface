@@ -110,12 +110,54 @@ Item {
             ctx.stroke();
         }
 
+        function scaleCanvas(e) {
+
+            var scaleFactor = 0;
+            if (e.angleDelta.y > 0)
+            {
+                scaleFactor = root.scaleFactor;
+                if (canvasScale.xScale > root.scaleMax)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                scaleFactor = 1 / root.scaleFactor;
+                if (canvasScale.xScale < root.scaleMin)
+                {
+                    return;
+                }
+            }
+
+            var realX = (e.x - canvasContainer.topLeft.x - canvasContainer.x) / canvasScale.xScale;
+            var realY = (e.y - canvasContainer.topLeft.y - canvasContainer.y) / canvasScale.yScale;
+
+            canvasScale.origin.x = realX;
+            canvasScale.origin.y = realY;
+            canvasScale.xScale *= scaleFactor;
+            canvasScale.yScale *= scaleFactor;
+
+            canvasContainer.topLeft.x = (1 - canvasScale.xScale)*realX;
+           canvasContainer.topLeft.y = (1 - canvasScale.yScale)*realY;
+        }
+
+        function focusOnItem(item)
+        {
+            var realX = (item.x) * canvasScale.xScale;
+            var realY = (item.y) * canvasScale.yScale;
+            var p = mapArea.mapFromItem(item, 0, 0);
+            console.log(p.x, canvasContainer.topLeft.x, item.x);
+            canvasContainer.x = -canvasContainer.topLeft.x - realX + mapArea.width / 2 - item.width / 2;
+            canvasContainer.y = -canvasContainer.topLeft.y - realY + mapArea.height / 2 - item.height / 2;
+        }
+
         MouseArea {
             anchors.fill: parent
             drag.target: canvasContainer
             drag.axis: Drag.XAndYAxis
             onWheel: (e) => {
-                canvasContainer.scaleCanvas(e);
+                mapArea.scaleCanvas(e);
                 mapArea.requestPaint();
             }
             onClicked: testModel.append(createEl())
@@ -137,62 +179,13 @@ Item {
             onXChanged: mapArea.requestPaint()
             onYChanged: mapArea.requestPaint()
 
+            transform: canvasScale
             property var topLeft: Qt.point(0, 0)
-
-            function scaleCanvas(e) {
-
-                var scaleFactor = 0;
-                if (e.angleDelta.y > 0)
-                {
-                    scaleFactor = root.scaleFactor;
-                    if (canvasScale.xScale > root.scaleMax)
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    scaleFactor = 1 / root.scaleFactor;
-                    if (canvasScale.xScale < root.scaleMin)
-                    {
-                        return;
-                    }
-                }
-
-                var realX = (e.x - topLeft.x - canvasContainer.x) / canvasScale.xScale;
-                var realY = (e.y - topLeft.y - canvasContainer.y) / canvasScale.yScale;
-
-                canvasScale.origin.x = realX;
-                canvasScale.origin.y = realY;
-                canvasScale.xScale *= scaleFactor;
-                canvasScale.yScale *= scaleFactor;
-
-                topLeft.x = (1 - canvasScale.xScale)*realX;
-                topLeft.y = (1 - canvasScale.yScale)*realY;
-            }
-
-            function focusOnItem(index)
-            {
-                if (testModel.count === 0)
-                    return;
-
-                var item;
-                if (index === -1)
-                    item = testModel.get(testModel.count - 1);
-                else
-                    item = testModel.get(index);
-
-                console.log(canvas.x, canvasContainer.x);
-                canvasContainer.x = (-topLeft.x ) * canvasScale.xScale// + mapArea.width / 2;
-                canvasContainer.y = (-topLeft.y ) * canvasScale.yScale// + mapArea.height / 2;
-            }
 
             Canvas {
                 id: canvas
                 width: childrenRect.width
                 height: childrenRect.height
-
-                transform: canvasScale
 
                 onPaint: canvasPaint()
 
@@ -222,9 +215,10 @@ Item {
                 Repeater {
                     id: repeater
                     model: testModel
-                    onItemAdded: {
+                    onItemAdded: (index, item) => {
 
-                        canvasContainer.focusOnItem(index);
+                        //console.log(item);
+                        mapArea.focusOnItem(item);
 
                         if (count > root.maxMarkers)
                         {
