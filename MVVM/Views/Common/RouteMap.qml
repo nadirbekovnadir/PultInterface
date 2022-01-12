@@ -14,6 +14,10 @@ Item {
     property int markerSize: 20
     property string markerColor: "blue"
     property string markerTextColor: "red"
+    property int maxMarkers: 20
+
+    property double gridStep: 30
+    property int gridTextSize: 10
 
     Scale {
         id: canvasScale
@@ -23,42 +27,121 @@ Item {
         yScale: 1
     }
 
-    Item {
+    ListModel {
+        id: testModel
+        ListElement {
+            posX: 50
+            posY: 50
+            posZ: 1
+        }
+        ListElement {
+            posX: 100
+            posY: 100
+            posZ: 2
+        }
+        ListElement {
+            posX: 150
+            posY: 150
+            posZ: 3
+        }
+    }
+
+    Canvas {
         id: mapArea
         anchors.fill: parent
         clip: true
 
-        ListModel {
-            id: testModel
-            ListElement {
-                posX: 50
-                posY: 50
-                posZ: 1
+        onPaint: mapAreaPaint()
+
+        function mapAreaPaint() {
+            var ctx = getContext("2d");
+
+            ctx.clearRect(0, 0, mapArea.width, mapArea.height);
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = Qt.color("lightGray");
+
+            //Динамический контроль масштаба делать лень
+            var stepX = (root.gridStep * canvasScale.xScale);
+            var stepY = (root.gridStep * canvasScale.yScale);
+            var offsetX = canvasContainer.x % stepX;
+            var offsetY = canvasContainer.y % stepY;
+
+            for (var x = offsetX; x < mapArea.width; x += stepX)
+            {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, mapArea.height);
             }
-            ListElement {
-                posX: 100
-                posY: 100
-                posZ: 2
+
+            for (var y = offsetY; y < mapArea.width; y += stepY)
+            {
+                ctx.moveTo(0, y);
+                ctx.lineTo(mapArea.width, y);
             }
-            ListElement {
-                posX: 150
-                posY: 150
-                posZ: 3
+            ctx.closePath();
+            ctx.stroke();
+
+            // Text
+            ctx.beginPath();
+
+            ctx.lineWidth = 1;
+            ctx.font = `${root.gridTextSize}px sans-serif`;
+            ctx.strokeStyle = Qt.color("black");
+
+            var realX = 0;
+            var realY = 0;
+
+            for (x = offsetX; x < mapArea.width; x += stepX)
+            {
+                ctx.moveTo(x, 0);
+                realX = mapToItem(canvas, x, 0).x;
+                ctx.text(Number(realX).toFixed(1), x - root.gridTextSize / 2, mapArea.height - 10);
             }
+
+            for (y = offsetY; y < mapArea.height; y += stepY)
+            {
+                ctx.moveTo(0, y);
+                realY = mapToItem(canvas, 0, y).y;
+                ctx.text(Number(realY).toFixed(1), 10, y - root.gridTextSize / 2);
+            }
+
+            ctx.closePath();
+            ctx.stroke();
         }
 
         MouseArea {
             anchors.fill: parent
             drag.target: canvasContainer
             drag.axis: Drag.XAndYAxis
-            onWheel: (e) => scaleCanvas(e)
+            onWheel: (e) => {
+                canvasContainer.scaleCanvas(e);
+                mapArea.requestPaint();
+            }
             onClicked: testModel.append(createEl())
+
+            function createEl() {
+                var child = testModel.get(testModel.count - 1)
+
+                return {
+                    posX: child.posX + 50,
+                    posY: child.posY + 150 / testModel.count,
+                    posZ: child.posZ + 1
+                };
+            }
+        }
+
+        Item{
+            // Не имеет размера, просто позволяет перемещать canvas относительно родителя
+            id: canvasContainer
+            onXChanged: mapArea.requestPaint()
+            onYChanged: mapArea.requestPaint()
 
             property var topLeft: Qt.point(0, 0)
 
             function scaleCanvas(e) {
 
-                var scaleFactor = 0
+                var scaleFactor = 0;
                 if (e.angleDelta.y > 0)
                 {
                     scaleFactor = root.scaleFactor;
@@ -75,10 +158,9 @@ Item {
                         return;
                     }
                 }
-                var p = mapToItem(canvas, Qt.point(e.x, e.y))
-                //console.log(canvasContainer.x, canvasContainer.y);
-                var realX = (p.x - topLeft.x) / canvasScale.xScale;
-                var realY = (p.y - topLeft.y) / canvasScale.yScale;
+
+                var realX = (e.x - topLeft.x - canvasContainer.x) / canvasScale.xScale;
+                var realY = (e.y - topLeft.y - canvasContainer.y) / canvasScale.yScale;
 
                 canvasScale.origin.x = realX;
                 canvasScale.origin.y = realY;
@@ -89,20 +171,21 @@ Item {
                 topLeft.y = (1 - canvasScale.yScale)*realY;
             }
 
-            function createEl() {
-                var child = testModel.get(testModel.count - 1)
-                console.log(child.posX)
-                return {
-                    posX: child.posX + 50,
-                    posY: child.posY + 150 / testModel.count,
-                    posZ: child.posZ + 1
-                };
-            }
-        }
+            function focusOnItem(index)
+            {
+                if (testModel.count === 0)
+                    return;
 
-        Item{
-            // Не имеет размера, просто позволяет перемещать canvas относительно родителя
-            id: canvasContainer
+                var item;
+                if (index === -1)
+                    item = testModel.get(testModel.count - 1);
+                else
+                    item = testModel.get(index);
+
+                console.log(canvas.x, canvasContainer.x);
+                canvasContainer.x = (-topLeft.x ) * canvasScale.xScale// + mapArea.width / 2;
+                canvasContainer.y = (-topLeft.y ) * canvasScale.yScale// + mapArea.height / 2;
+            }
 
             Canvas {
                 id: canvas
@@ -113,24 +196,23 @@ Item {
 
                 onPaint: canvasPaint()
 
+                property ListModel model: testModel
+                property int count: model.count
+                onCountChanged: requestPaint()
+
                 function canvasPaint() {
                     var ctx = getContext("2d");
-                    console.log(children.length);
 
                     ctx.beginPath();
                     ctx.lineWidth = 3;
                     ctx.strokeStyle = Qt.color(root.lineColor);
 
-                    for (var i = 0; i < children.length; ++i)
+                    for (var i = 0; i < model.count; ++i)
                     {
-                        var child = children[i];
-                        if (child.objectName !== "marker")
-                            continue;
+                        var item = model.get(i);
 
-                        console.log(child.x, child.y);
-
-                        ctx.lineTo(child.x + child.width / 2, child.y + child.height / 2);
-                        ctx.moveTo(child.x + child.width / 2, child.y + child.height / 2);
+                        ctx.lineTo(item.posX, item.posY);
+                        ctx.moveTo(item.posX, item.posY);
                     }
 
                     ctx.closePath();
@@ -140,7 +222,17 @@ Item {
                 Repeater {
                     id: repeater
                     model: testModel
-                    onModelChanged: canvas.requestPaint()
+                    onItemAdded: {
+
+                        canvasContainer.focusOnItem(index);
+
+                        if (count > root.maxMarkers)
+                        {
+                            //model.remove(0, count - root.maxMarkers);
+                            //gc();
+                        }
+                        gc();
+                    }
 
                     Item {
                         id: marker
