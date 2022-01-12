@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 6.2
 
 Item {
     id: baseItem
@@ -9,6 +10,7 @@ Item {
     property int speed: 1
     property int maxDeviation: 30
     property bool forward: true
+    height: 640
 
     onModeChanged: {
         if (mode === "INDOOR") {
@@ -27,28 +29,23 @@ Item {
             speed = 12;
             maxDeviation = 100;
         }
+        //console.log(mode)
     }
 
     Rectangle {
         id: compassBackground
-        width: parent.size
-        height: parent.size
         color: "#c34a00"
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
         radius: parent.size
         anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.height
+        height: parent.height
     }
 
     Image {
         id: compassScaleImage
-        width: parent.size
-        height: parent.size - 5
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.fill: parent
         source: "CompassScale.svg"
-        anchors.verticalCenterOffset: 0
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
         fillMode: Image.PreserveAspectFit
     }
 
@@ -56,17 +53,17 @@ Item {
         id: compassPointerImage
         width: parent.size
         height: parent.size / 2
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenter: compassBackground.verticalCenter
         source: "CompassPointer.svg"
         rotation: 0
         anchors.verticalCenterOffset: 0
         anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenter: compassBackground.horizontalCenter
         fillMode: Image.PreserveAspectFit
     }
 
     Timer {
-        interval: 100; running: true; repeat: true
+        interval: 10; running: true; repeat: true
         onTriggered: {
             if (compassPointerImage.rotation >= maxDeviation)
             {
@@ -90,8 +87,10 @@ Item {
 
 }
 
+
+
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:1}D{i:2}D{i:3}
+    D{i:0;height:640;width:640}D{i:1}D{i:2}D{i:3}D{i:4}
 }
 ##^##*/
