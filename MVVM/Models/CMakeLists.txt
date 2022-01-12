@@ -1,5 +1,6 @@
 add_headers(
     ProcessedVideo.h
+    Position.h
 )
 
 add_sources(

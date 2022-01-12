@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QVideoFrame>
+#include <QMovie>
 
 #include "BaseProcessingHandler.h"
 
@@ -28,4 +29,9 @@ protected:
 
 signals:
     void dataReady(ProcessedVideo frame);
+
+    //temp
+private:
+    QMovie *film1 = nullptr;
+    QMovie *film2 = nullptr;
 };

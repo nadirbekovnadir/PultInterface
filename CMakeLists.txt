@@ -5,7 +5,7 @@ project(PultInterface VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick Multimedia REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Multimedia Widgets REQUIRED)
 
 macro (propagate_to_parent)
     set (HEADERS ${HEADERS} PARENT_SCOPE)
@@ -93,4 +93,4 @@ target_compile_definitions(${PROJECT_NAME}
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE Qt6::Quick Qt6::Multimedia)
+    PRIVATE Qt6::Quick Qt6::Multimedia Qt6::Widgets)

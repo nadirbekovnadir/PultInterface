@@ -34,7 +34,7 @@ ProcessedVideo *CameraModuleViewModel::processedVideo()
 void CameraModuleViewModel::dataReadyHandler(const ProcessedVideo &processedVideo)
 {
     _processedVideo = processedVideo;
-    emit _processedVideo.updated();
+    emit processedVideoChanged();
 
 #ifdef QT_DEBUG
     //qDebug() << "Frame: " << timer.restart() << std::hash<std::thread::id>{}(std::this_thread::get_id());
