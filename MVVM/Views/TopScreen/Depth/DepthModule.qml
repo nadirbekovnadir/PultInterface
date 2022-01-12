@@ -27,29 +27,38 @@ Item {
         fillMode: Image.PreserveAspectFit
     }
 
-    Image {
-        id: depthGaugePointerImage
-        width: parent.size
-        height: parent.size / 2
-        anchors.bottom: parent.bottom
-        source: "DepthPointer.svg"
-        anchors.bottomMargin: depthGaugeScaleImage.paintedHeight / 2 - depthGaugeScaleImage.paintedHeight * 0.05
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
-        fillMode: Image.PreserveAspectFit
-    }
-
     Timer {
         interval: 100; running: true; repeat: true
         onTriggered: {
-            depthGaugePointerImage.rotation += 5;
+            pointerRotator.rotation += 0.1;
         }
     }
+
+    Item {
+        id: pointerRotator
+        anchors.fill: parent
+
+        Image {
+            id: depthGaugePointerImage
+            x: 80
+            y: 235
+            width: 200
+            height: 200
+            anchors.bottom: parent.bottom
+            source: "DepthPointer.svg"
+            rotation: 180
+            anchors.bottomMargin: 45
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+            fillMode: Image.PreserveAspectFit
+        }
+    }
+
 
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:1}D{i:2}D{i:3}
+    D{i:0;autoSize:true;height:480;width:640}D{i:1}D{i:2}D{i:3}D{i:5}D{i:4}
 }
 ##^##*/

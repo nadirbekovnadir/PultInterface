@@ -54,7 +54,7 @@ Window {
 
         Label {
             id: timeLabel
-            text: "SHIT"
+            text: "01/12/22"
             anchors.fill: parent
             font.pixelSize: height * fontSize
             horizontalAlignment: Text.AlignHCenter

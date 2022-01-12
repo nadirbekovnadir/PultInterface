@@ -10,6 +10,7 @@ Item {
     property int speed: 1
     property int maxDeviation: 30
     property bool forward: true
+    height: 640
 
     onModeChanged: {
         if (mode === "INDOOR") {
@@ -34,19 +35,16 @@ Item {
         id: compassBackground
         color: "#c34a00"
         radius: parent.size
-        anchors.fill: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.height
+        height: parent.height
     }
 
     Image {
         id: compassScaleImage
-        anchors.left: compassBackground.right
-        anchors.right: parent.right
-        anchors.top: compassBackground.bottom
-        anchors.bottom: compassBackground.top
+        anchors.fill: parent
         source: "CompassScale.svg"
-        anchors.leftMargin: -640
-        anchors.bottomMargin: -640
-        anchors.topMargin: -640
         fillMode: Image.PreserveAspectFit
     }
 
@@ -64,7 +62,7 @@ Item {
     }
 
     Timer {
-        interval: 100; running: true; repeat: true
+        interval: 10; running: true; repeat: true
         onTriggered: {
             if (compassPointerImage.rotation >= maxDeviation)
             {
@@ -88,8 +86,10 @@ Item {
 
 }
 
+
+
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:1}D{i:2}D{i:3}
+    D{i:0;height:640;width:640}D{i:1}D{i:2}D{i:3}D{i:4}
 }
 ##^##*/
