@@ -3,25 +3,49 @@ import QtQuick.Controls 6.2
 
 Item {
     id: baseItem
+
+    property string mode
+
     property int size: baseItem.height
+    property int speed: 1
+    property int maxDeviation: 30
+    property bool forward: true
+    height: 640
+
+    onModeChanged: {
+        if (mode === "INDOOR") {
+            speed = 1;
+            maxDeviation = 30;
+        }
+        else if (mode === "ABSOLUTE") {
+            speed = 3;
+            maxDeviation = 50;
+        }
+        else if (mode === "RELATIVE") {
+            speed = 6;
+            maxDeviation = 20;
+        }
+        else if (mode === "HM KF") {
+            speed = 12;
+            maxDeviation = 100;
+        }
+        //console.log(mode)
+    }
 
     Rectangle {
         id: compassBackground
         color: "#c34a00"
         radius: parent.size
-        anchors.fill: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.height
+        height: parent.height
     }
 
     Image {
         id: compassScaleImage
-        anchors.left: compassBackground.right
-        anchors.right: parent.right
-        anchors.top: compassBackground.bottom
-        anchors.bottom: compassBackground.top
+        anchors.fill: parent
         source: "CompassScale.svg"
-        anchors.leftMargin: -640
-        anchors.bottomMargin: -640
-        anchors.topMargin: -640
         fillMode: Image.PreserveAspectFit
     }
 
@@ -38,11 +62,35 @@ Item {
         fillMode: Image.PreserveAspectFit
     }
 
+    Timer {
+        interval: 10; running: true; repeat: true
+        onTriggered: {
+            if (compassPointerImage.rotation >= maxDeviation)
+            {
+                baseItem.forward = false;
+            }
+            else if (compassPointerImage.rotation <= -maxDeviation)
+            {
+                baseItem.forward = true;
+            }
+
+            if (baseItem.forward)
+            {
+                compassPointerImage.rotation += speed;
+            }
+            else
+            {
+                compassPointerImage.rotation -= speed;
+            }
+        }
+    }
 
 }
 
+
+
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:1}D{i:2}D{i:3}
+    D{i:0;height:640;width:640}D{i:1}D{i:2}D{i:3}D{i:4}
 }
 ##^##*/

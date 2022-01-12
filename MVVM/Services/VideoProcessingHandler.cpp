@@ -6,8 +6,8 @@ VideoProcessingHandler::VideoProcessingHandler(
     bool withProcessing)
     : BaseProcessingHandler<int, float, ProcessedVideo>(move(provider), move(processor), withProcessing)
 {
-    film1 = new QMovie("C:/Users/Nadir/Documents/Repositories/PultInterface/film1.gif");
-    film2 = new QMovie("C:/Users/Nadir/Documents/Repositories/PultInterface/film2.gif");
+    film1 = new QMovie("C:/Users/dimad/Documents/qml_final_dev/film1.gif");
+    film2 = new QMovie("C:/Users/dimad/Documents/qml_final_dev/film2.gif");
 
     film1->start();
     film2->start();

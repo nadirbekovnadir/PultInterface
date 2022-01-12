@@ -9,7 +9,6 @@ Window {
     title: "Systems"
     visible: true
     color: "#434343"
-    property alias buttonFontpixelSize: yawStabilizationButton.font.pixelSize
     minimumHeight: 480
     minimumWidth: 640
     width: 1800
@@ -175,14 +174,6 @@ Window {
                     anchors.topMargin: 0
                 }
 
-                MouseArea {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: cameraLabel2.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.topMargin: 0
-                    onClicked: sysWindow.context.onCameraModuleClicked(cameraTwo.context)
-                }
                 
                 Label {
                     id: cameraLabel2
@@ -203,6 +194,16 @@ Window {
 
 
                 
+                MouseArea {
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: cameraLabel2.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 0
+
+                    onClicked: sysWindow.context.onCameraModuleClicked(cameraTwo.context)
+                }
             }
             
             CameraModule {
@@ -225,17 +226,10 @@ Window {
                     anchors.right: parent.right
                     anchors.top: cameraLabel1.bottom
                     anchors.bottom: parent.bottom
+
                     anchors.topMargin: 0
                 }
 
-                MouseArea {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: cameraLabel1.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.topMargin: 0
-                    onClicked: sysWindow.context.onCameraModuleClicked(cameraOne.context)
-                }
                 
                 
 
@@ -269,6 +263,15 @@ Window {
                     anchors.topMargin: 0
                     anchors.leftMargin: 0
                     anchors.rightMargin: 0
+                }
+                MouseArea {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+
+                    anchors.top: cameraLabel1.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 0
+                    onClicked: sysWindow.context.onCameraModuleClicked(cameraOne.context)
                 }
             }
             
@@ -339,12 +342,15 @@ Window {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
+
         Button {
             id: themeButton
             height: tabBar.height
-            text: qsTr("Button")
+            text: qsTr("DARK")
             checkable: true
             font.pixelSize: height * fontSize
+            checked: true
+            autoExclusive: false
             Layout.rowSpan: 1
             Layout.columnSpan: 1
             Layout.fillHeight: true
@@ -406,6 +412,20 @@ Window {
                 anchors.bottomMargin: 0
             }
         }
+
+        RouteMap {
+            id: routeMap
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: peripheralsTabBar.bottom
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: 5
+            anchors.leftMargin: 5
+            anchors.bottomMargin: 5
+            anchors.topMargin: 5
+            context: sysWindow.context.mapViewModel
+
+        }
     }
     
     Item {
@@ -435,49 +455,86 @@ Window {
             anchors.bottom: parent.bottom
             anchors.topMargin: 0
 
-            Grid {
-                id: imuControlGrid
-                x: 0
-                y: 0
-                anchors.fill: parent
-                columns: 1
-                spacing: 20
-                Button {
-                    id: indoorButton
-                    width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
-                    height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
-                    text: qsTr("INDOOR")
-                    font.pixelSize: height * fontSize
-                    autoExclusive: true
-                }
+            ColumnLayout {
+                id: columnLayout
+                width: 100
+                height: 100
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: filterButton.top
+                layoutDirection: Qt.LeftToRight
+                spacing: 5
+                anchors.bottomMargin: 20
+                anchors.topMargin: 0
+                anchors.leftMargin: 0
+                anchors.rightMargin: 0
+                property int rows: 3
 
-                Button {
-                    id: relativeButton
-                    width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
-                    height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
-                    text: qsTr("RELATIVE")
-                    font.pixelSize: height * fontSize
-                    autoExclusive: true
+                ButtonGroup {
+                    buttons: columnLayout.children
                 }
 
                 Button {
                     id: absoluteButton
-                    width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
+                    width: parent.width
                     height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
                     text: qsTr("ABSOLUTE")
                     font.pixelSize: height * fontSize
+                    autoRepeat: true
+                    checkable: false
+                    checked: false
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                     autoExclusive: true
+                    //onClicked: sysWindow.context.onIMUModeChanged("ABSOLUTE")
                 }
 
                 Button {
-                    id: filterButton
-                    width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
+                    id: relativeButton
+                    width: parent.width
                     height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
-                    text: qsTr("HM KF")
+                    text: qsTr("RELATIVE")
                     font.pixelSize: height * fontSize
-                    checkable: true
+                    autoRepeat: true
+                    checkable: false
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    autoExclusive: true
+                    onClicked: sysWindow.context.onIMUModeChanged("RELATIVE")
+
                 }
-                rows: 4
+
+                 Button {
+                    id: indoorButton
+                    width: parent.width
+                    height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
+                    text: qsTr("INDOOR")
+                    font.pixelSize: height * fontSize
+                    autoRepeat: true
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    checkable: false
+                    autoExclusive: true
+                    onClicked: sysWindow.context.onIMUModeChanged("INDOOR")
+
+                }
+            }
+
+            Button {
+                id: filterButton
+                y: 0
+                height: 60
+                text: qsTr("HM KF")
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                font.pixelSize: height * fontSize
+                anchors.rightMargin: 0
+                anchors.leftMargin: 0
+                anchors.bottomMargin: 0
+                checkable: true
+                onClicked: sysWindow.context.onIMUModeChanged("HM KF")
             }
         }
         
@@ -557,6 +614,7 @@ Window {
                 height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
                 text: qsTr("HOLD YAW")
                 font.pixelSize: height * fontSize
+                highlighted: false
                 checkable: true
             }
             
@@ -594,10 +652,10 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.66}D{i:3}D{i:4}D{i:6}D{i:5}D{i:8}D{i:7}D{i:9}D{i:2}D{i:12}
+    D{i:0;formeditorZoom:0.75}D{i:3}D{i:4}D{i:6}D{i:5}D{i:8}D{i:7}D{i:9}D{i:2}D{i:12}
 D{i:13}D{i:14}D{i:15}D{i:11}D{i:17}D{i:18}D{i:19}D{i:20}D{i:16}D{i:10}D{i:1}D{i:22}
-D{i:23}D{i:24}D{i:21}D{i:26}D{i:27}D{i:25}D{i:29}D{i:31}D{i:32}D{i:30}D{i:28}D{i:34}
-D{i:37}D{i:38}D{i:39}D{i:40}D{i:36}D{i:35}D{i:42}D{i:43}D{i:44}D{i:41}D{i:33}D{i:46}
-D{i:48}D{i:49}D{i:50}D{i:51}D{i:47}D{i:45}
+D{i:23}D{i:24}D{i:21;locked:true}D{i:26}D{i:27}D{i:25}D{i:29}D{i:31}D{i:32}D{i:30}
+D{i:33}D{i:28}D{i:35}D{i:38}D{i:39}D{i:40}D{i:41}D{i:37}D{i:42}D{i:36}D{i:44}D{i:45}
+D{i:46}D{i:43}D{i:34}D{i:48}D{i:50}D{i:51}D{i:52}D{i:53}D{i:49}D{i:47}
 }
 ##^##*/
