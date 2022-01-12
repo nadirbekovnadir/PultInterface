@@ -5,7 +5,7 @@ add_headers(
 
 #Video
 add_headers(
-    BaseProcessingHandler.h
+    VideoProcessingHandler.h
 )
 
 add_sources(
