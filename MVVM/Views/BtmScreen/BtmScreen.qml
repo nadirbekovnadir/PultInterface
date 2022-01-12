@@ -357,6 +357,12 @@ Window {
                 autoExclusive: false
                 anchors.bottomMargin: 0
             }
+
+            RouteMap {
+                id: routeMap
+                context: sysWindow.context.mapViewModel
+                anchors.fill: parent
+            }
         }
     }
     
