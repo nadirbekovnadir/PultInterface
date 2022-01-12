@@ -19,22 +19,25 @@ Item {
 
     Image {
         id: attitudePointerImage
-        anchors.fill: parent
+        anchors.left: attitudeBackground.right
+        anchors.right: attitudeBackground.left
+        anchors.top: attitudeBackground.bottom
+        anchors.bottom: attitudeBackground.top
         source: "AttitudePointer.svg"
-        anchors.rightMargin: 181
-        anchors.bottomMargin: 168
-        anchors.leftMargin: 183
-        anchors.topMargin: 82
+        anchors.rightMargin: 0
+        anchors.leftMargin: 0
+        anchors.bottomMargin: 0
+        anchors.topMargin: 0
         fillMode: Image.PreserveAspectFit
     }
 
     Image {
         id: pitchScaleImage
-        x: 198
-        y: 144
         width: 245
         height: 303
+        anchors.verticalCenter: parent.verticalCenter
         source: "PitchScale.svg"
+        anchors.horizontalCenter: parent.horizontalCenter
         fillMode: Image.PreserveAspectFit
     }
 
@@ -44,8 +47,6 @@ Item {
         height: 153
         anchors.verticalCenter: parent.verticalCenter
         source: "RollScale.svg"
-        anchors.verticalCenterOffset: -140
-        anchors.horizontalCenterOffset: 1
         anchors.horizontalCenter: parent.horizontalCenter
         fillMode: Image.PreserveAspectFit
     }

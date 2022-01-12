@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 6.2
 
 Item {
     id: baseItem
@@ -31,24 +32,21 @@ Item {
 
     Rectangle {
         id: compassBackground
-        width: parent.size
-        height: parent.size
         color: "#c34a00"
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
         radius: parent.size
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.fill: parent
     }
 
     Image {
         id: compassScaleImage
-        width: parent.size
-        height: parent.size - 5
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: compassBackground.right
+        anchors.right: parent.right
+        anchors.top: compassBackground.bottom
+        anchors.bottom: compassBackground.top
         source: "CompassScale.svg"
-        anchors.verticalCenterOffset: 0
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.leftMargin: -640
+        anchors.bottomMargin: -640
+        anchors.topMargin: -640
         fillMode: Image.PreserveAspectFit
     }
 
@@ -56,12 +54,12 @@ Item {
         id: compassPointerImage
         width: parent.size
         height: parent.size / 2
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenter: compassBackground.verticalCenter
         source: "CompassPointer.svg"
         rotation: 0
         anchors.verticalCenterOffset: 0
         anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenter: compassBackground.horizontalCenter
         fillMode: Image.PreserveAspectFit
     }
 

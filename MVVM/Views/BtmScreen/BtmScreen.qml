@@ -176,11 +176,13 @@ Window {
                 }
 
                 MouseArea {
+
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: cameraLabel2.bottom
                     anchors.bottom: parent.bottom
                     anchors.topMargin: 0
+
                     onClicked: sysWindow.context.onCameraModuleClicked(cameraTwo.context)
                 }
                 
@@ -225,12 +227,14 @@ Window {
                     anchors.right: parent.right
                     anchors.top: cameraLabel1.bottom
                     anchors.bottom: parent.bottom
+
                     anchors.topMargin: 0
                 }
 
                 MouseArea {
                     anchors.left: parent.left
                     anchors.right: parent.right
+
                     anchors.top: cameraLabel1.bottom
                     anchors.bottom: parent.bottom
                     anchors.topMargin: 0
@@ -411,6 +415,7 @@ Window {
             id: routeMap
             context: sysWindow.context.mapViewModel
             anchors.fill: parent
+
         }
     }
     
@@ -457,6 +462,7 @@ Window {
                     font.pixelSize: height * fontSize
                     autoExclusive: true
                     onClicked: sysWindow.context.onIMUModeChanged("INDOOR")
+
                 }
 
                 Button {
@@ -467,6 +473,7 @@ Window {
                     font.pixelSize: height * fontSize
                     autoExclusive: true
                     onClicked: sysWindow.context.onIMUModeChanged("RELATIVE")
+
                 }
 
                 Button {
