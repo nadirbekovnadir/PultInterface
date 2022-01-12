@@ -174,16 +174,6 @@ Window {
                     anchors.topMargin: 0
                 }
 
-                MouseArea {
-
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: cameraLabel2.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.topMargin: 0
-
-                    onClicked: sysWindow.context.onCameraModuleClicked(cameraTwo.context)
-                }
                 
                 Label {
                     id: cameraLabel2
@@ -204,6 +194,16 @@ Window {
 
 
                 
+                MouseArea {
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: cameraLabel2.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 0
+
+                    onClicked: sysWindow.context.onCameraModuleClicked(cameraTwo.context)
+                }
             }
             
             CameraModule {
@@ -230,15 +230,6 @@ Window {
                     anchors.topMargin: 0
                 }
 
-                MouseArea {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-
-                    anchors.top: cameraLabel1.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.topMargin: 0
-                    onClicked: sysWindow.context.onCameraModuleClicked(cameraOne.context)
-                }
                 
                 
 
@@ -272,6 +263,15 @@ Window {
                     anchors.topMargin: 0
                     anchors.leftMargin: 0
                     anchors.rightMargin: 0
+                }
+                MouseArea {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+
+                    anchors.top: cameraLabel1.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 0
+                    onClicked: sysWindow.context.onCameraModuleClicked(cameraOne.context)
                 }
             }
             
@@ -346,9 +346,11 @@ Window {
         Button {
             id: themeButton
             height: tabBar.height
-            text: qsTr("Button")
+            text: qsTr("DARK")
             checkable: true
             font.pixelSize: height * fontSize
+            checked: true
+            autoExclusive: false
             Layout.rowSpan: 1
             Layout.columnSpan: 1
             Layout.fillHeight: true
@@ -485,7 +487,7 @@ Window {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     autoExclusive: true
-                    onClicked: sysWindow.context.onIMUModeChanged("ABSOLUTE")
+                    //onClicked: sysWindow.context.onIMUModeChanged("ABSOLUTE")
                 }
 
                 Button {

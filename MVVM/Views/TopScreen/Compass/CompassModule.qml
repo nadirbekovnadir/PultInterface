@@ -29,6 +29,7 @@ Item {
             speed = 12;
             maxDeviation = 100;
         }
+        //console.log(mode)
     }
 
     Rectangle {
