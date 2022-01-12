@@ -21,7 +21,6 @@ Window {
     
     property int marginsHorizontal: 40
     property int marginsVertical: 40
-    property int textBoxesSize: sysWindow.height * BasicScreen.textBoxesRatio
     
     property real fontSize: 0.5
     
@@ -33,7 +32,7 @@ Window {
         anchors.left: parent.left
         anchors.right: rowLayout.left
         anchors.top: tabBar.bottom
-        anchors.leftMargin: 40
+        anchors.leftMargin: marginsHorizontal
         anchors.rightMargin: marginsHorizontal
         anchors.topMargin: marginsVertical
         
@@ -53,13 +52,27 @@ Window {
                 x: 0
                 y: -386
                 opacity: 0.5
-                anchors.left: stopButton.right
-                anchors.right: elapsedTime.right
+                anchors.left: parent.left
+                anchors.right: elapsedTimeLabel.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.leftMargin: 0
                 anchors.rightMargin: 0
             }
+
+            Pane {
+                id: pane7
+                x: 3
+                y: -385
+                opacity: 1
+                anchors.left: pane4.right
+                anchors.right: elapsedTimeLabel.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: 0
+                anchors.rightMargin: 0
+            }
+
             
             Button {
                 id: playButton
@@ -68,9 +81,9 @@ Window {
                 anchors.left: stopButton.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                anchors.leftMargin: 20
                 anchors.topMargin: 0
                 anchors.bottomMargin: 0
-                anchors.leftMargin: marginsHorizontal
                 
                 Image {
                     id: play_pauseButtonIMg
@@ -98,9 +111,9 @@ Window {
                     fillMode: Image.PreserveAspectFit
                 }
             }
-            
+
             Label {
-                id: elapsedTime
+                id: elapsedTimeLabel
                 width: 124
                 text: qsTr("Label")
                 anchors.left: playButton.right
@@ -109,23 +122,12 @@ Window {
                 font.pixelSize: height * fontSize
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                anchors.leftMargin: marginsHorizontal
+                anchors.leftMargin: 20
                 anchors.bottomMargin: 0
                 anchors.topMargin: 0
             }
+
             
-            Pane {
-                id: pane7
-                visible: true
-                anchors.left: elapsedTime.right
-                anchors.right: elapsedTime.left
-                anchors.top: elapsedTime.bottom
-                anchors.bottom: elapsedTime.top
-                anchors.topMargin: 0
-                anchors.bottomMargin: 0
-                anchors.rightMargin: 0
-                anchors.leftMargin: 0
-            }
             
         }
         
@@ -147,7 +149,32 @@ Window {
                 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 
+                Pane {
+                    id: pane8
+                    opacity: 0.5
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: cameraLabel2.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 0
+                }
+
+                Pane {
+                    id: pane9
+                    x: 6
+                    y: 48
+                    opacity: 1
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.bottom: pane8.top
+                    anchors.bottomMargin: 0
+                    anchors.topMargin: 0
+                }
+
                 MouseArea {
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -173,6 +200,8 @@ Window {
                     anchors.leftMargin: 0
                     anchors.topMargin: 0
                 }
+
+
                 
             }
             
@@ -182,9 +211,23 @@ Window {
                 width: (parent.width - parent.spacing) / 2
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 
                 
                 
+                Pane {
+                    id: pane6
+                    x: 0
+                    y: 58
+                    opacity: 0.5
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: cameraLabel1.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 0
+                }
+
                 MouseArea {
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -195,26 +238,38 @@ Window {
                 }
                 
                 
-                Label {
-                    id: cameraLabel1
-                    x: -620
-                    y: 0
-                    text: qsTr("CAMERA 1")
+
+
+                Pane {
+                    id: pane10
+                    x: 5
+                    opacity: 1
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    font.pixelSize: fontSize * height
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.bottomMargin: 276
+                    anchors.bottom: pane6.top
+                    anchors.bottomMargin: 0
                     anchors.topMargin: 0
-                    anchors.leftMargin: 0
-                    anchors.rightMargin: 0
                 }
                 
                 
                 
+                Label {
+                    id: cameraLabel1
+                    x: -620
+                    y: 0
+                    height: parent.height * 0.2
+                    text: qsTr("CAMERA 1")
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    font.pixelSize: fontSize * height
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.topMargin: 0
+                    anchors.leftMargin: 0
+                    anchors.rightMargin: 0
+                }
             }
             
         }
@@ -247,7 +302,7 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             font.pixelSize: height * fontSize
-            autoExclusive: false
+            autoExclusive: true
             anchors.topMargin: 0
             anchors.bottomMargin: 0
         }
@@ -278,18 +333,9 @@ Window {
         RoundButton {
             id: connectionButton
             height: tabBar.height
+            radius: 0
             font.pixelSize: height * fontSize
             text: "CONNECT"
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
-        
-        Label {
-            id: dataLabel
-            text: "Text"
-            font.pixelSize: height * fontSize
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
@@ -299,6 +345,8 @@ Window {
             text: qsTr("Button")
             checkable: true
             font.pixelSize: height * fontSize
+            Layout.rowSpan: 1
+            Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
@@ -354,7 +402,7 @@ Window {
                 anchors.bottom: parent.bottom
                 font.pixelSize: height * fontSize
                 anchors.topMargin: 0
-                autoExclusive: false
+                autoExclusive: true
                 anchors.bottomMargin: 0
             }
 
@@ -368,12 +416,13 @@ Window {
     
     Item {
         id: imuCntlModule
-        height: parent.height * 0.5
         anchors.left: btmCamerasModule.right
         anchors.right: parent.right
         anchors.top: rowLayout.bottom
-        anchors.leftMargin: marginsHorizontal
+        anchors.bottom: mapAndSysModule.top
+        anchors.bottomMargin: marginsVertical
         anchors.rightMargin: marginsHorizontal
+        anchors.leftMargin: marginsHorizontal
         anchors.topMargin: marginsVertical
         
         Pane {
@@ -386,38 +435,55 @@ Window {
             id: imuModesControl
             x: 0
             y: 80
-            anchors.fill: parent
-            anchors.topMargin: 20
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: imuTabBar.bottom
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 0
 
             Grid {
-                id: positionHoldButton1
+                id: imuControlGrid
+                x: 0
+                y: 0
                 anchors.fill: parent
                 columns: 1
                 spacing: 20
                 Button {
-                    id: yawStabilizationButton1
+                    id: indoorButton
                     width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
                     height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
-                    text: qsTr("HOLD YAW")
+                    text: qsTr("INDOOR")
                     font.pixelSize: height * fontSize
+                    autoExclusive: true
                 }
 
                 Button {
-                    id: depthStabilizationButton1
+                    id: relativeButton
                     width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
                     height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
-                    text: qsTr("HOLD DEPTH")
+                    text: qsTr("RELATIVE")
                     font.pixelSize: height * fontSize
+                    autoExclusive: true
                 }
 
                 Button {
-                    id: pitchStabilizationButton1
+                    id: absoluteButton
                     width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
                     height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
-                    text: qsTr("HOLD PITCH")
+                    text: qsTr("ABSOLUTE")
                     font.pixelSize: height * fontSize
+                    autoExclusive: true
                 }
-                rows: 3
+
+                Button {
+                    id: filterButton
+                    width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
+                    height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
+                    text: qsTr("HM KF")
+                    font.pixelSize: height * fontSize
+                    checkable: true
+                }
+                rows: 4
             }
         }
         
@@ -448,7 +514,7 @@ Window {
                 anchors.bottom: parent.bottom
                 font.pixelSize: height * fontSize
                 anchors.topMargin: 0
-                autoExclusive: false
+                autoExclusive: true
                 anchors.bottomMargin: 0
             }
             
@@ -467,7 +533,7 @@ Window {
     }
     
     Item {
-        id: item1
+        id: rovControlModule
         anchors.left: mapAndSysModule.right
         anchors.right: parent.right
         anchors.top: imuCntlModule.bottom
@@ -484,7 +550,7 @@ Window {
         }
         
         Grid {
-            id: positionHoldButton
+            id: positionHoldRow
             anchors.fill: parent
             spacing: 20
             rows: 4
@@ -497,6 +563,7 @@ Window {
                 height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
                 text: qsTr("HOLD YAW")
                 font.pixelSize: height * fontSize
+                checkable: true
             }
             
             Button {
@@ -505,6 +572,8 @@ Window {
                 height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
                 text: qsTr("HOLD DEPTH")
                 font.pixelSize: height * fontSize
+                display: AbstractButton.TextBesideIcon
+                checkable: true
             }
             
             Button {
@@ -513,6 +582,7 @@ Window {
                 height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
                 text: qsTr("HOLD PITCH")
                 font.pixelSize: height * fontSize
+                checkable: true
             }
             
             Button {
@@ -521,6 +591,7 @@ Window {
                 height: (parent.height - (parent.rows - 1) * parent.spacing) / parent.rows
                 text: qsTr("HOLD POSITION")
                 font.pixelSize: height * fontSize
+                checkable: true
             }
         }
     }
@@ -529,10 +600,10 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75}D{i:3}D{i:5}D{i:4}D{i:7}D{i:6}D{i:8}D{i:9}D{i:2}D{i:12}
-D{i:13}D{i:11}D{i:15}D{i:16}D{i:14}D{i:10}D{i:1}D{i:18}D{i:19}D{i:20}D{i:17}D{i:22}
-D{i:23}D{i:24}D{i:21}D{i:26}D{i:28}D{i:29}D{i:27}D{i:25}D{i:31}D{i:34}D{i:35}D{i:36}
-D{i:33}D{i:32}D{i:38}D{i:39}D{i:40}D{i:37}D{i:30}D{i:42}D{i:44}D{i:45}D{i:46}D{i:47}
-D{i:43}D{i:41}
+    D{i:0;formeditorZoom:0.66}D{i:3}D{i:4}D{i:6}D{i:5}D{i:8}D{i:7}D{i:9}D{i:2}D{i:12}
+D{i:13}D{i:14}D{i:15}D{i:11}D{i:17}D{i:18}D{i:19}D{i:20}D{i:16}D{i:10}D{i:1}D{i:22}
+D{i:23}D{i:24}D{i:21}D{i:26}D{i:27}D{i:25}D{i:29}D{i:31}D{i:32}D{i:30}D{i:28}D{i:34}
+D{i:37}D{i:38}D{i:39}D{i:40}D{i:36}D{i:35}D{i:42}D{i:43}D{i:44}D{i:41}D{i:33}D{i:46}
+D{i:48}D{i:49}D{i:50}D{i:51}D{i:47}D{i:45}
 }
 ##^##*/
