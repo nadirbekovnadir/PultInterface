@@ -163,6 +163,7 @@ Window {
                     Layout.fillWidth: true
                     Layout.preferredHeight: parent.height / 2
                     Layout.preferredWidth: parent.height / 2
+                    mode: mainWindow.context.imuMode
                 }
             }
             Item {

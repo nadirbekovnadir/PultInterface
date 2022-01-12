@@ -153,7 +153,7 @@ Window {
                 
                 Pane {
                     id: pane8
-                    opacity: 0.5
+                    opacity: 0.0
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: cameraLabel2.bottom
@@ -221,7 +221,7 @@ Window {
                     id: pane6
                     x: 0
                     y: 58
-                    opacity: 0.5
+                    opacity: 0.0
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: cameraLabel1.bottom
@@ -487,7 +487,7 @@ Window {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     autoExclusive: true
-                    //onClicked: sysWindow.context.onIMUModeChanged("ABSOLUTE")
+                    onClicked: sysWindow.context.onIMUModeChanged("ABSOLUTE")
                 }
 
                 Button {

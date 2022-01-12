@@ -138,8 +138,8 @@ Item {
             canvasScale.xScale *= scaleFactor;
             canvasScale.yScale *= scaleFactor;
 
-            canvasContainer.topLeft.x = (1 - canvasScale.xScale)*realX;
-           canvasContainer.topLeft.y = (1 - canvasScale.yScale)*realY;
+            canvasContainer.topLeft.x = (1-canvasScale.xScale)*realX;
+            canvasContainer.topLeft.y = (1-canvasScale.yScale)*realY;
         }
 
         function focusOnItem(item)

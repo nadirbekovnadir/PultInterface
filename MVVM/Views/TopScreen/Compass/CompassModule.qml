@@ -29,7 +29,6 @@ Item {
             speed = 12;
             maxDeviation = 100;
         }
-        //console.log(mode)
     }
 
     Rectangle {
@@ -65,6 +64,7 @@ Item {
     Timer {
         interval: 10; running: true; repeat: true
         onTriggered: {
+
             if (compassPointerImage.rotation >= maxDeviation)
             {
                 baseItem.forward = false;
