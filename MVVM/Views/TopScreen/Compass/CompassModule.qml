@@ -2,7 +2,32 @@ import QtQuick 2.0
 
 Item {
     id: baseItem
+
+    property string mode
+
     property int size: baseItem.height
+    property int speed: 1
+    property int maxDeviation: 30
+    property bool forward: true
+
+    onModeChanged: {
+        if (mode === "INDOOR") {
+            speed = 1;
+            maxDeviation = 30;
+        }
+        else if (mode === "ABSOLUTE") {
+            speed = 3;
+            maxDeviation = 50;
+        }
+        else if (mode === "RELATIVE") {
+            speed = 6;
+            maxDeviation = 20;
+        }
+        else if (mode === "HM KF") {
+            speed = 12;
+            maxDeviation = 100;
+        }
+    }
 
     Rectangle {
         id: compassBackground
@@ -38,6 +63,29 @@ Item {
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         fillMode: Image.PreserveAspectFit
+    }
+
+    Timer {
+        interval: 100; running: true; repeat: true
+        onTriggered: {
+            if (compassPointerImage.rotation >= maxDeviation)
+            {
+                baseItem.forward = false;
+            }
+            else if (compassPointerImage.rotation <= -maxDeviation)
+            {
+                baseItem.forward = true;
+            }
+
+            if (baseItem.forward)
+            {
+                compassPointerImage.rotation += speed;
+            }
+            else
+            {
+                compassPointerImage.rotation -= speed;
+            }
+        }
     }
 
 }

@@ -405,12 +405,12 @@ Window {
                 autoExclusive: true
                 anchors.bottomMargin: 0
             }
+        }
 
-            RouteMap {
-                id: routeMap
-                context: sysWindow.context.mapViewModel
-                anchors.fill: parent
-            }
+        RouteMap {
+            id: routeMap
+            context: sysWindow.context.mapViewModel
+            anchors.fill: parent
         }
     }
     
@@ -448,6 +448,7 @@ Window {
                 anchors.fill: parent
                 columns: 1
                 spacing: 20
+
                 Button {
                     id: indoorButton
                     width: (parent.width - (parent.columns - 1) * parent.spacing) / parent.columns
@@ -455,6 +456,7 @@ Window {
                     text: qsTr("INDOOR")
                     font.pixelSize: height * fontSize
                     autoExclusive: true
+                    onClicked: sysWindow.context.onIMUModeChanged("INDOOR")
                 }
 
                 Button {
@@ -464,6 +466,7 @@ Window {
                     text: qsTr("RELATIVE")
                     font.pixelSize: height * fontSize
                     autoExclusive: true
+                    onClicked: sysWindow.context.onIMUModeChanged("RELATIVE")
                 }
 
                 Button {
@@ -473,6 +476,7 @@ Window {
                     text: qsTr("ABSOLUTE")
                     font.pixelSize: height * fontSize
                     autoExclusive: true
+                    onClicked: sysWindow.context.onIMUModeChanged("ABSOLUTE")
                 }
 
                 Button {
@@ -482,6 +486,7 @@ Window {
                     text: qsTr("HM KF")
                     font.pixelSize: height * fontSize
                     checkable: true
+                    onClicked: sysWindow.context.onIMUModeChanged("HM KF")
                 }
                 rows: 4
             }

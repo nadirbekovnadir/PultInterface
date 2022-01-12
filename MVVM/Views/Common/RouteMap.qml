@@ -168,7 +168,7 @@ Item {
                 return {
                     posX: child.posX + 50,
                     posY: child.posY + 150 / testModel.count,
-                    posZ: child.posZ + 1
+                    posZ: Math.random() * 100
                 };
             }
         }
@@ -250,7 +250,7 @@ Item {
                         Text {
                             x: marker.width / 2 - width / 2
                             y: marker.height / 2 - height / 2
-                            text: posZ
+                            text: Number(posZ).toFixed(1)
                             color: Qt.color(marker.textColor)
                         }
                     }

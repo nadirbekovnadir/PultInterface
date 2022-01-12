@@ -8,6 +8,8 @@
 #include "Domain/Video/ObjectDetectionProcessor.h"
 
 #include "MVVM/Stores/CameraNavigationStore.h"
+#include "MVVM/Stores/IMUModeStore.h"
+
 #include "MVVM/Services/VideoProcessingHandler.h"
 #include "MVVM/ViewModels/MapViewModel.h"
 #include "MVVM/ViewModels/MainViewModel.h"
@@ -57,12 +59,17 @@ int main(int argc, char *argv[])
     auto cameraNavigationStore = make_shared<CameraNavigationStore>(
                 cameraOneViewModel.get());
 
+    auto imuModeStore = make_shared<IMUModeStore>(
+                IMUModeStore::Mode::INDOOR);
+
     //ViewModels
     auto topScreenViewModel = make_shared<TopScreenViewModel>(
-                cameraNavigationStore);
+                cameraNavigationStore,
+                imuModeStore);
 
     auto botScreenViewModel = make_shared<BotScreenViewModel>(
                 cameraNavigationStore,
+                imuModeStore,
                 cameraOneViewModel,
                 cameraTwoViewModel,
                 mapViewModel);

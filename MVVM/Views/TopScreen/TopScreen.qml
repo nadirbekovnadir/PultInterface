@@ -93,6 +93,8 @@ Window {
 
         CompassModule {
             id: compassModule
+            mode: mainWindow.context.imuMode
+
             y: 321
             width: telemetryColumn.moduleWidth
             height: telemetryColumn.moduleHeight

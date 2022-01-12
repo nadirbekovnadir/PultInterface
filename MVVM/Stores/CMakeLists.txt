@@ -1,5 +1,6 @@
 add_headers(
     CameraNavigationStore.h
+    IMUModeStore.h
 )
 
 add_sources(

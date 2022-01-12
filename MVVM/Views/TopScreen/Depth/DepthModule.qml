@@ -39,6 +39,13 @@ Item {
         fillMode: Image.PreserveAspectFit
     }
 
+    Timer {
+        interval: 100; running: true; repeat: true
+        onTriggered: {
+            depthGaugePointerImage.rotation += 5;
+        }
+    }
+
 }
 
 /*##^##

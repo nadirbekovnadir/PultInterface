@@ -3,6 +3,8 @@
 #include <QObject>
 
 #include "../Stores/CameraNavigationStore.h"
+#include "../Stores/IMUModeStore.h"
+
 #include "CameraModuleViewModel.h"
 #include "MapViewModel.h"
 
@@ -25,6 +27,7 @@ public slots:
 public:
     BotScreenViewModel(
         shared_ptr<CameraNavigationStore> cameraNavigationStore,
+        shared_ptr<IMUModeStore> imuModeStore,
         shared_ptr<CameraModuleViewModel> cameraOneViewModel,
         shared_ptr<CameraModuleViewModel> cameraTwoViewModel,
 
@@ -34,6 +37,8 @@ public:
 
 private:
     shared_ptr<CameraNavigationStore> _cameraNavigationStore;
+    shared_ptr<IMUModeStore> _imuModeStore;
+
     shared_ptr<CameraModuleViewModel> _cameraOneViewModel;
     shared_ptr<CameraModuleViewModel> _cameraTwoViewModel;
     shared_ptr<MapViewModel> _mapViewModel;
@@ -53,4 +58,7 @@ public:
     {
         return _mapViewModel.get();
     }
+
+public Q_SLOTS:
+    void onIMUModeChanged(QString mode);
 };
