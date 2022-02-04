@@ -4,6 +4,9 @@ add_qml(
 add_svg(
    CompassPointer.svg
    CompassScale.svg
+   compass.svg
+   arrow.svg
+   point.svg
+   slider_compass.png
 )
-
 propagate_to_parent()

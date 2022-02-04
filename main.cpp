@@ -13,10 +13,15 @@
 #include "MVVM/Services/VideoProcessingHandler.h"
 #include "MVVM/ViewModels/MapViewModel.h"
 #include "MVVM/ViewModels/MainViewModel.h"
+#include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    QSurfaceFormat format;
+    format.setSamples(0);
+    QSurfaceFormat::setDefaultFormat(format);
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/PultInterface/main.qml"_qs);

@@ -31,60 +31,64 @@ Item {
         }
     }
 
-    Rectangle {
-        id: compassBackground
-        color: "#c34a00"
-        radius: parent.size
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.height
-        height: parent.height
-    }
+//    Rectangle {
+//        id: compassBackground
+//        color: "#c34a00"
+//        radius: parent.size
+//        anchors.verticalCenter: parent.verticalCenter
+//        anchors.horizontalCenter: parent.horizontalCenter
+//        width: parent.height
+//        height: parent.height
+//    }
 
     Image {
         id: compassScaleImage
-        anchors.fill: parent
-        source: "CompassScale.svg"
         fillMode: Image.PreserveAspectFit
+        //smooth : true
+        //anchors.fill: parent
+        source: "point.svg"
     }
 
     Image {
         id: compassPointerImage
-        width: parent.size
-        height: parent.size / 2
         anchors.verticalCenter: compassBackground.verticalCenter
-        source: "CompassPointer.svg"
-        rotation: 0
+        source: "compass.svg"
+        //rotation: 0
+        //smooth : true
         anchors.verticalCenterOffset: 0
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: compassBackground.horizontalCenter
         fillMode: Image.PreserveAspectFit
-    }
-
-    Timer {
-        interval: 10; running: true; repeat: true
-        onTriggered: {
-
-            if (compassPointerImage.rotation >= maxDeviation)
-            {
-                baseItem.forward = false;
-            }
-            else if (compassPointerImage.rotation <= -maxDeviation)
-            {
-                baseItem.forward = true;
-            }
-
-            if (baseItem.forward)
-            {
-                compassPointerImage.rotation += speed;
-            }
-            else
-            {
-                compassPointerImage.rotation -= speed;
-            }
+        RotationAnimation on rotation {
+            loops: Animation.Infinite
+            from: 0
+            to: 360
+            duration: 10000
         }
     }
 
+//    Timer {
+//        interval: 100; running: true; repeat: true
+//        onTriggered: {
+
+//            if (compassPointerImage.rotation >= maxDeviation)
+//            {
+//                baseItem.forward = false;
+//            }
+//            else if (compassPointerImage.rotation <= -maxDeviation)
+//            {
+//                baseItem.forward = true;
+//            }
+//            if (baseItem.forward)
+//            {
+//                compassPointerImage.rotation += speed;
+//            }
+//            else
+//            {
+//                compassPointerImage.rotation -= speed;
+//            }
+//        }
+//    }
 }
 
 

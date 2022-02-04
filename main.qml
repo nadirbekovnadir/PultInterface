@@ -9,9 +9,9 @@ Item{
     TopScreen{
         context: topScreenViewModel
     }
-    BtmScreen{
-        context: botScreenViewModel
-    }
+//    BtmScreen{
+//        context: botScreenViewModel
+//    }
 
 //    Window {
 //        id: testWindow
