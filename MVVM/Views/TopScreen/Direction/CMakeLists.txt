@@ -1,0 +1,27 @@
+add_qml(
+    DirectionModule.qml
+)
+
+add_svg(
+    r5.svg
+    r6.svg
+    r7.svg
+    r8.svg
+    r9.svg
+    r10.svg
+    r11.svg
+    r12.svg
+    r13.svg
+    r14.svg
+    r15.svg
+    r16.svg
+    r17.svg
+    r18.svg
+    r19.svg
+    r20.svg
+    r21.svg
+    r22.svg
+    r23.svg
+    r24.svg
+)
+propagate_to_parent()

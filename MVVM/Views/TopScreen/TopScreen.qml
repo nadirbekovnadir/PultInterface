@@ -5,6 +5,8 @@ import "../TopScreen/Compass"
 import "../TopScreen/Attitude"
 import "../TopScreen/Depth"
 import "../TopScreen/Force"
+import "../TopScreen/Direction"
+import "../TopScreen/Rpd"
 import QtQuick.Layouts 6.0
 import QtQuick.Controls 6.2
 
@@ -15,7 +17,7 @@ Window {
     width: 1900
     height: 800
     visible: true
-    color: "#434343"
+    color: "#212121"
     minimumWidth: 640
     minimumHeight: 480
 
@@ -141,12 +143,12 @@ Window {
 //                    anchors.horizontalCenterOffset: 1
 //                }
 //            }
-            Item {
-                id: compassBox
-                width: 200
-                height: 200
-                Layout.fillHeight: true
-                Layout.fillWidth: true
+            //Item {
+//                id: compassBox
+//                width: 200
+//                height: 200
+//                Layout.fillHeight: true
+//                Layout.fillWidth: true
 
 
 //                Pane {
@@ -156,12 +158,66 @@ Window {
 //                    opacity: 0.5
 //                    anchors.fill: parent
 //                }
-                CompassModule {
-                    id: compassModule
-                    anchors.fill: parent
-                    mode: mainWindow.context.imuMode
+
+
+                ColumnLayout {
+                    id: column
+
+                    Row {
+                        id: row
+
+                        Rectangle {
+                            id: rectangle3
+                            width: 400
+                            height: 300
+                            color: "#737373"
+                        }
+
+                        Column {
+                            id: column1
+
+                            DelayButton {
+                                id: delayButton
+                                text: qsTr("Delay Button")
+                            }
+                        }
+                    }
+
+
+                    RowLayout {
+                        id: row1
+                        spacing: 23
+                        DirectionModule {
+                            id: directionModule
+                            // mode: mainWindow.context.imuMode
+                        }
+                        CompassModule {
+                            id: compassModule
+                            mode: mainWindow.context.imuMode
+                        }
+                        RpdModule {
+                            id:rpdModule
+
+                        }
+
+                        Rectangle {
+                            id: rectangle2
+                            opacity: 0.1
+                            width: 200
+                            height: 200
+                            color: "#ffffff"
+                        }
+
+                        Rectangle {
+                            id: rectangle4
+                            opacity: 0.1
+                            width: 200
+                            height: 200
+                            color: "#ffffff"
+                        }
+                    }
                 }
-            }
+//            }
 //            Item {
 //                id: item6
 //                width: 200
