@@ -3,7 +3,7 @@
 #include <QObject>
 
 #include "../Stores/CameraNavigationStore.h"
-#include "../Stores./IMUModeStore.h"
+#include "../Stores/IMUModeStore.h"
 
 #include "CameraModuleViewModel.h"
 

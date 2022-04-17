@@ -2,11 +2,17 @@ cmake_minimum_required(VERSION 3.16)
 
 project(PultInterface VERSION 0.1 LANGUAGES CXX)
 
+set(TARGET_NAME_PROG PultInterface-build)
+
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick Multimedia Widgets REQUIRED)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
+find_package(Qt6 COMPONENTS Quick Multimedia Widgets REQUIRED)
 macro (propagate_to_parent)
     set (HEADERS ${HEADERS} PARENT_SCOPE)
     set (SOURCES ${SOURCES} PARENT_SCOPE)
@@ -74,23 +80,25 @@ add_qml(
     main.qml
 )
 
-qt_add_executable(${PROJECT_NAME}
+qt_add_executable(${TARGET_NAME_PROG}
     ${HEADERS}
     ${SOURCES}
 )
 
-message(STATUS ${QML})
+message(STATUS ">---------------" ${PROJECT_NAME})
+message(STATUS ">---------------" ${TARGET_NAME_PROG})
+message(STATUS ">---------------" ${SVG})
 
-qt_add_qml_module(${PROJECT_NAME}
-    URI PultInterface
+qt_add_qml_module(${TARGET_NAME_PROG}
+    URI ${PROJECT_NAME}
     VERSION 1.0
     QML_FILES ${QML}
     RESOURCES ${SVG}
     DESIGNER_SUPPORTED
 )
 
-target_compile_definitions(${PROJECT_NAME}
+target_compile_definitions(${TARGET_NAME_PROG}
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${TARGET_NAME_PROG}
     PRIVATE Qt6::Quick Qt6::Multimedia Qt6::Widgets)

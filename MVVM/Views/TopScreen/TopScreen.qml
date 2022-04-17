@@ -14,7 +14,7 @@ Window {
     property var context
 
     id: mainWindow
-    width: 1900
+    width: 1200
     height: 800
     visible: true
     color: "#212121"
@@ -162,24 +162,74 @@ Window {
 
                 ColumnLayout {
                     id: column
+                    Row {
+                        id: r
+                        MenuBar {
+                            id: menuBar
+                            palette.window: "#3D3D3D"
+                            palette.text: "#DADADA"
+                            palette.highlight: "#76767E"
 
+                            Menu {
+                                palette.base: "#2D2D2F"
+                                title: "File"
+                                Action { text: qsTr("&New...") }
+                                Action { text: qsTr("&Open...") }
+                                Action { text: qsTr("&Save") }
+                                Action { text: qsTr("Save &As...") }
+                                MenuSeparator { }
+                                Action { text: qsTr("&Quit") }
+                            }
+                            Menu {
+                                palette.base: "#2D2D2F"
+                                title: "Edit"
+                                Action { text: qsTr("Cu&t") }
+                                Action { text: "&Copy" }
+                                Action { text: qsTr("&Paste") }
+                            }
+                            Menu {
+                                palette.base: "#2D2D2F"
+                                title: "Help"
+                                Action { text: qsTr("&About") }
+                            }
+                            delegate: MenuBarItem {
+                                    id: menuBarItem
+
+                                    contentItem: Text {
+                                        text: menuBarItem.text
+                                        font: menuBarItem.font
+                                        opacity: enabled ? 1.0 : 0.3
+                                        //color: menuBarItem.highlighted ? "#ffffff" : "#21be2b"
+                                        horizontalAlignment: Text.Right
+                                        verticalAlignment: Text.AlignVCenter
+                                        elide: Text.ElideRight
+                                    }
+
+                                    background: Rectangle {
+                                        implicitWidth: 40
+                                        implicitHeight: 40
+                                        opacity: enabled ? 1 : 0.3
+                                        color: menuBarItem.highlighted ? "#21be2b" : "transparent"
+                                    }
+                                }
+
+                                background: Rectangle {
+                                    implicitWidth: 10
+                                    implicitHeight: 10
+                                    color: "#3D3D3D"
+
+                                }
+
+                        }
+                    }
                     Row {
                         id: row
 
                         Rectangle {
                             id: rectangle3
-                            width: 400
-                            height: 300
+                            width: 400*2
+                            height: 300*1.7
                             color: "#737373"
-                        }
-
-                        Column {
-                            id: column1
-
-                            DelayButton {
-                                id: delayButton
-                                text: qsTr("Delay Button")
-                            }
                         }
                     }
 
