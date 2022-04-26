@@ -1,5 +1,7 @@
 add_qml(
     RpdModule.qml
+    DepthElement.qml
+    AxisBox.qml
 )
 
 add_svg(

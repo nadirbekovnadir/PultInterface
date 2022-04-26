@@ -87,6 +87,17 @@ Item {
                                 source: "r32.svg"
                             }
                         }
+                        DepthElement{
+                            id: dep_1
+                        }
+                        Timer{
+                            interval: 1
+                            running: true
+                            repeat: true
+                            onTriggered: {
+                                dep_1.size += 0.01
+                            }
+                        }
                         Item {
                             id: reg_0
                             width: 24.86
