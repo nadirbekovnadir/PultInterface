@@ -4,7 +4,7 @@ Item {
     id: baseItem2
     width: 198
     height: 198
-    //property int size: baseItem.height
+    // property int size: baseItem.height
 
     Rectangle {
         id: startBackground
@@ -15,7 +15,7 @@ Item {
         Image {
             id: centrPointImage
             fillMode: Image.PreserveAspectFit
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenter: parent.verticalCenter   // (90, 90)
             anchors.horizontalCenter: parent.horizontalCenter
             //smooth : true
             //anchors.fill: parent
@@ -40,8 +40,8 @@ Item {
             source: "r23.svg"
         }
 
-        Column{
-            id:indicator
+        Column {
+            id:indicator    // Segmensts:  5 - 18
             spacing: 2.693
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
@@ -128,7 +128,14 @@ Item {
                 source: "r18.svg"
             }
 
+            Timer {
+                interval: 100; running: true; repeat: true
+                onTriggered: {
+                    //segment5.colorSpace();
+                }
+            }
         }
+
         Image {
             id: didgImage
             fillMode: Image.PreserveAspectFit
